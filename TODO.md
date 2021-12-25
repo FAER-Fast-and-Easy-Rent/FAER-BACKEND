@@ -19,4 +19,4 @@
     - Added user serializer
     - Registered URL for user creation and retrieval
     - Tested all routes for accounts with the postman
-    - Added all tests for accounts and verified.
+    - Added all tests for accounts and verified
