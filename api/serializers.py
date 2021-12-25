@@ -1,8 +1,9 @@
-from re import search
-from django.db.models import fields
+# from re import search
+# from django.db.models import fields
 from rest_framework import serializers
-from rest_framework.utils import field_mapping
+# from rest_framework.utils import field_mapping
 from .models import Room, HouseRule, Amenitie, Location
+
 
 class RoomSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -19,6 +20,7 @@ class RoomSerializer(serializers.HyperlinkedModelSerializer):
             'location'
         )
 
+
 class HouseRuleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = HouseRule
@@ -29,6 +31,7 @@ class HouseRuleSerializer(serializers.HyperlinkedModelSerializer):
             'couples_allowed',
             'preferred_gender'
         )
+
 
 class AmenitieSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -43,6 +46,7 @@ class AmenitieSerializer(serializers.HyperlinkedModelSerializer):
             'floor_no',
             'total_rooms_in_house'
         )
+
 
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

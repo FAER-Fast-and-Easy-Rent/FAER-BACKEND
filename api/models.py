@@ -16,6 +16,7 @@ class Amenitie(models.Model):
     def __str__(self):
         return str(self.amenty_id)
 
+
 class HouseRule(models.Model):
     gender_pref = (
         ("M", "MALE"),
@@ -30,6 +31,7 @@ class HouseRule(models.Model):
 
     def __str__(self):
         return str(self.rule_id)
+
 
 class Location(models.Model):
     states = (
