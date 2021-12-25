@@ -1,12 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-
-
+from rest_framework import status
+User = get_user_model()
 class UsersManagersTests(TestCase):
 
     def test_create_user(self):
-        User = get_user_model()
-        user = User.objects.create_user(email='normal@user.com', name='normal', password='foo')
+        user= User.objects.create_user(email='normal@user.com', name='normal', password='foo')
         self.assertEqual(user.email, 'normal@user.com')
         self.assertEqual(user.name, 'normal')
         self.assertTrue(user.is_active)
@@ -41,3 +40,10 @@ class UsersManagersTests(TestCase):
             pass
         with self.assertRaises(ValueError):
             User.objects.create_superuser(email='', name='', password='foo')
+
+    def test_user_login(self):
+        self.user= User.objects.create_user(email='normal@user.com', name='normal', password='foo')
+        response = self.client.post('/api/v1/token/',{'email': self.user.email,'password':'foo'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['refresh'])
+        self.assertTrue(response.data['access'])
