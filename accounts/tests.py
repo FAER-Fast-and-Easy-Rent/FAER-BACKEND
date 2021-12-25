@@ -42,8 +42,13 @@ class UsersManagersTests(TestCase):
             User.objects.create_superuser(email='', name='', password='foo')
 
     def test_user_login(self):
-        self.user= User.objects.create_user(email='normal@user.com', name='normal', password='foo')
-        response = self.client.post('/api/v1/token/',{'email': self.user.email,'password':'foo'})
+        user= User.objects.create_user(email='normal@user.com', name='normal', password='foo')
+        response = self.client.post('/api/v1/token/',{'email':user.email,'password':'foo'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data['refresh'])
         self.assertTrue(response.data['access'])
+
+    def test_auth_user_register(self):
+        response = self.client.post('/api/v1/auth/user/register',{'email':'test@email.com','name':'test','password':'password','re_password':'password'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertJSONEqual(response.content,{"success":"User created successfully."})
