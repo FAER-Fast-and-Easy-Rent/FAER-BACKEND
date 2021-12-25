@@ -14,3 +14,8 @@
     - Added Manager and model for custom user along with forms
     - Added functionality for user in admin view
     - Added tests for testing create_user and creste_superuser
+    - Added register user view
+    - Added retieve user view
+    - Added user serializer
+    - Registerd url for user creation and retrieval
+    - Tested all routes for accounts with postman
