@@ -7,3 +7,16 @@
     - Setup for restframework along with urls done
     - Included api urls 
     - Tested home index url with some messgae and status-code
+    - Added github action workflow along with flake and coverage support
+    - Added few settings for simplejwt
+
+- [x] Setting up Accounts
+    - Added Manager and model for the custom user along with forms
+    - Added functionality for the user in admin view
+    - Added tests for testing create_user and creste_superuser
+    - Added register user view
+    - Added retrieve user view
+    - Added user serializer
+    - Registered URL for user creation and retrieval
+    - Tested all routes for accounts with the postman
+    - Added all tests for accounts and verified.
