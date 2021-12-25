@@ -1,5 +1,9 @@
 from django.urls import include, path
-from rest_framework import routers, viewsets
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from rest_framework import routers
 from . import views
 
 
@@ -8,10 +12,6 @@ router.register(r'rooms', views.RoomViewSet)
 router.register(r'amenties', views.AmentieViewSet)
 router.register(r'house_rules', views.HouseRuleViewSet)
 router.register(r'locations', views.LocationViewSet)
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 
 urlpatterns = [

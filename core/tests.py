@@ -11,4 +11,4 @@ class CoreAppTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # Check that the content of the response contains messgae.
-        self.assertEqual(response.content,b'{"message": "Welcome to FAER API"}')
+        self.assertEqual(response.content, b'{"message": "Welcome to FAER API"}')
