@@ -48,7 +48,27 @@ class UsersManagersTests(TestCase):
         self.assertTrue(response.data['refresh'])
         self.assertTrue(response.data['access'])
 
-    def test_auth_user_register(self):
+    def test_auth_user_register_with_all_fields(self):
         response = self.client.post('/api/v1/auth/user/register',{'email':'test@email.com','name':'test','password':'password','re_password':'password'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertJSONEqual(response.content,{"success":"User created successfully."})
+
+    def test_auth_user_register_with_no_fields(self):
+        response = self.client.post('/api/v1/auth/user/register')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertJSONEqual(response.content,{"error":"Fields are missing."})
+
+    def test_auth_user_register_with_one_field(self):
+        response = self.client.post('/api/v1/auth/user/register',{'email':'test@email.com'})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertJSONEqual(response.content,{'error': {'name': 'is required.','password': 'is required.','re_password': 'is required.'}})
+
+    def test_auth_user_register_with_short_password_field(self):
+        response = self.client.post('/api/v1/auth/user/register',{'email':'test@email.com','name':'test','password':'foo','re_password':'foo'})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertJSONEqual(response.content,{'error': 'Password must me at least 8 characters long.'})
+
+    def test_auth_user_register_with_unequal_password_field(self):
+        response = self.client.post('/api/v1/auth/user/register',{'email':'test@email.com','name':'test','password':'password','re_password':'passwor'})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertJSONEqual(response.content,{'error': 'Passwords do not match.'})
