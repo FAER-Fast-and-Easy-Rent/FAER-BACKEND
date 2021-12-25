@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'api.apps.ApiConfig',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -137,8 +139,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-     'AUTH_HEADER_TYPES': ('Bearer',),
-     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
 # Default primary key field type

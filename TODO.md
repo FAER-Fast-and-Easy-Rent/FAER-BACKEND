@@ -7,3 +7,8 @@
     - Setup for restframework along with urls done
     - Included api urls 
     - Tested home index url with some messgae and status-code
+    - Added github action workflow along with flake and coverage support
+    - Added few settings for simplejwt
+
+- [x] Setting up Accounts
+    - 
