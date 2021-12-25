@@ -11,11 +11,11 @@
     - Added few settings for simplejwt
 
 - [x] Setting up Accounts
-    - Added Manager and model for custom user along with forms
-    - Added functionality for user in admin view
+    - Added Manager and model for the custom user along with forms
+    - Added functionality for the user in admin view
     - Added tests for testing create_user and creste_superuser
     - Added register user view
-    - Added retieve user view
+    - Added retrieve user view
     - Added user serializer
-    - Registerd url for user creation and retrieval
-    - Tested all routes for accounts with postman
+    - Registered URL for user creation and retrieval
+    - Tested all routes for accounts with the postman
