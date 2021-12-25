@@ -11,4 +11,6 @@
     - Added few settings for simplejwt
 
 - [x] Setting up Accounts
-    - 
+    - Added Manager and model for custom user along with forms
+    - Added functionality for user in admin view
+    - Added tests for testing create_user and creste_superuser
