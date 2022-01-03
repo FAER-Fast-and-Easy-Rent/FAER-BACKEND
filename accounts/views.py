@@ -6,12 +6,8 @@ from .serializers import UserSerializer
 from rest_framework import generics
 
 User = get_user_model()
-
-PASSWORD_LENGTH_ERROR = "Password must me at least 8 characters long."
-PASSWORD_MISMATCH = "Passwords do not match."
-USER_EXISTS = "User with this email already exists."
 MESSAGE = "Something went wrong."
-FIELD_MISSING = "Fields are missing."
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
