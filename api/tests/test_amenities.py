@@ -1,6 +1,7 @@
 from django.test import TestCase
 from rest_framework import status
 
+
 class AmenitiesTests(TestCase):
 
     def test_home_route_of_amenities(self):
