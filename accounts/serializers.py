@@ -1,10 +1,31 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
+
 User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(write_only=True, required=True)
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    re_password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ('name', 'email')
+        fields = ('name', 'email', 'password', 're_password')
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['re_password']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            email=validated_data['email'], name=validated_data['name'], password=validated_data['password'])
+        return user
