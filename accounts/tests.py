@@ -43,6 +43,9 @@ class UsersManagersTests(TestCase):
         with self.assertRaises(ValueError):
             User.objects.create_superuser(email='', name='', password='foo')
 
+
+class AccountsTests(TestCase):
+
     def test_user_login(self):
         user = User.objects.create_user(email='normal@user.com', name='normal', password='foo')
         response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'foo'})
