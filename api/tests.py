@@ -18,8 +18,8 @@ class AmenitiesTests(TestCase):
         data = {"is_furnished": True, "has_parking": True,
                 "has_garden": False, "has_terrace": False,
                 "has_attach_bathrooms": True, "floor_no": 1,
-                "total_rooms_in_house": 4 }
+                "total_rooms_in_house": 4}
         response = self.client.post('/api/v1/amenties/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        data['amenty_id']=1
+        data['amenty_id'] = 1
         self.assertJSONEqual(response.content, data)
