@@ -5,13 +5,15 @@ from rest_framework import serializers
 from .models import Room, HouseRule, Amenitie, Location
 
 
-class RoomSerializer(serializers.HyperlinkedModelSerializer):
+class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = (
+            'owner',
             'property_id',
             'category_type',
             'images',
+            'photo',
             'no_of_room_to_rent',
             'price',
             'description',
@@ -29,6 +31,8 @@ class HouseRuleSerializer(serializers.HyperlinkedModelSerializer):
             'smoking_allowed',
             'pets_allowed',
             'couples_allowed',
+            'deposit',
+            'single_occupancy',
             'preferred_gender'
         )
 
@@ -38,10 +42,16 @@ class AmenitieSerializer(serializers.HyperlinkedModelSerializer):
         model = Amenitie
         fields = (
             'amenty_id',
+            'min_stay',
+            'max_stay',
             'is_furnished',
+            'has_kitchen',
+            'has_internet',
             'has_parking',
             'has_garden',
             'has_terrace',
+            'total_bedrooms',
+            'available_from',
             'has_attach_bathrooms',
             'floor_no',
             'total_rooms_in_house'

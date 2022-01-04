@@ -7,8 +7,8 @@ User = get_user_model()
 
 class Amenitie(models.Model):
     amenty_id = models.AutoField(primary_key=True)
-    min_stay =  models.IntegerField()
-    max_stay =  models.IntegerField()
+    min_stay = models.IntegerField()
+    max_stay = models.IntegerField()
     floor_no = models.IntegerField()
     is_furnished = models.BooleanField()
     has_kitchen = models.BooleanField()
@@ -62,6 +62,7 @@ class Location(models.Model):
     def __str__(self):
         return str(self.location_id)
 
+
 class Room(models.Model):
     category_types = (
         ("R", "ROOM"),
@@ -72,6 +73,7 @@ class Room(models.Model):
     property_id = models.AutoField(primary_key=True)
     category_type = models.CharField(max_length=1, choices=category_types)
     images = models.URLField(max_length=200)
+    photo = models.ImageField(upload_to='rooms')
     no_of_room_to_rent = models.IntegerField()
     price = models.FloatField()
     description = models.TextField()
@@ -83,7 +85,8 @@ class Room(models.Model):
     def __str__(self):
         return str(self.property_id)
 
-class Media(model.Model):
+
+class Media(models.Model):
     media_id = models.AutoField(primary_key=True)
     file_name = models.CharField(max_length=50)
     mime_type = models.CharField(max_length=50)
