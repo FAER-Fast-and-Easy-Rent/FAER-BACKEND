@@ -1,16 +1,24 @@
 from django.db import models
-
+from django.utils import timezone
+from django.contrib.auth import get_user_model
+User = get_user_model()
 # Create your models here.
 
 
 class Amenitie(models.Model):
     amenty_id = models.AutoField(primary_key=True)
+    min_stay =  models.IntegerField()
+    max_stay =  models.IntegerField()
+    floor_no = models.IntegerField()
     is_furnished = models.BooleanField()
+    has_kitchen = models.BooleanField()
+    has_internet = models.BooleanField()
     has_parking = models.BooleanField()
     has_garden = models.BooleanField()
     has_terrace = models.BooleanField()
+    total_bedrooms = models.IntegerField()
+    available_from = models.DateTimeField(default=timezone.now)
     has_attach_bathrooms = models.BooleanField()
-    floor_no = models.IntegerField()
     total_rooms_in_house = models.IntegerField()
 
     def __str__(self):
@@ -24,9 +32,11 @@ class HouseRule(models.Model):
         ("B", "BOTH")
     )
     rule_id = models.AutoField(primary_key=True)
-    smoking_allowed = models.BooleanField()
     pets_allowed = models.BooleanField()
+    deposit = models.BooleanField()
+    smoking_allowed = models.BooleanField()
     couples_allowed = models.BooleanField()
+    single_occupancy = models.BooleanField()
     preferred_gender = models.CharField(max_length=1, choices=gender_pref)
 
     def __str__(self):
@@ -52,7 +62,6 @@ class Location(models.Model):
     def __str__(self):
         return str(self.location_id)
 
-
 class Room(models.Model):
     category_types = (
         ("R", "ROOM"),
@@ -69,6 +78,17 @@ class Room(models.Model):
     amenities = models.ForeignKey(to='Amenitie', on_delete=models.CASCADE)
     house_rule = models.ForeignKey(to='HouseRule', on_delete=models.CASCADE)
     location = models.ForeignKey(to='Location', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.property_id)
+
+class Media(model.Model):
+    media_id = models.AutoField(primary_key=True)
+    file_name = models.CharField(max_length=50)
+    mime_type = models.CharField(max_length=50)
+    url = models.URLField(max_length=200)
+    room = models.ForeignKey(to='Room', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.media_id)
