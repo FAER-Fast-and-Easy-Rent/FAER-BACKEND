@@ -15,6 +15,7 @@ class MediaSerializer(serializers.ModelSerializer):
 
 
 class RoomSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(max_length=255)
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)
     home_type = serializers.CharField()
@@ -30,6 +31,7 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = (
+            'title',
             'price',
             'description',
             'home_type',
