@@ -1,5 +1,4 @@
 import json
-from time import sleep
 from kafka import KafkaProducer
 
 # channel
@@ -15,13 +14,14 @@ def on_send_success(record_metadata):
     print(record_metadata.partition)
     print(record_metadata.offset)
 
+
 def on_send_error(excp):
-    log.error('I am an errback', exc_info=excp)
+    print('I am an errback')
     # handle exception
 
 
 def publish(method: str, body: dict):
-    producer.send(topic, key=method.encode('UTF-8') ,value=body).add_callback(
+    producer.send(topic, key=method.encode('UTF-8'), value=body).add_callback(
         on_send_success).add_errback(on_send_error)
     print(f'Topic :{topic}  Key :{method}   published.')
 

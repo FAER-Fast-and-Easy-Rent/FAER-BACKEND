@@ -120,14 +120,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Celery Configuration Options
-CELERY_TIMEZONE = 'Asia/Kathmandu'
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TASK_SERIALIZER = 'json'
-CELERY_BROKER_URL  = 'amqps://goncpuoa:0Ug5VKc3-K4AFucGyg5_FoE-GzrbHERx@chimpanzee.rmq.cloudamqp.com/goncpuoa' #insert cloudAMQP url
+# Kafka Configuration Options
+KAFKA_BROKER_URL = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

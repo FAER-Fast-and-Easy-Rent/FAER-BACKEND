@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Media,Room
+from .models import Media, Room
+
 
 class MediaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,10 +42,3 @@ class RoomSerializer(serializers.ModelSerializer):
             'address',
             'images'
         )
-
-
-# create a serializer
-class TestSerializer(serializers.Serializer):
-    # initialize fields
-    content = serializers.CharField(max_length=200)
-    image = serializers.ImageField( max_length=None,use_url=True)
