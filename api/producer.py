@@ -11,8 +11,8 @@ producer = KafkaProducer(bootstrap_servers=[
 
 def on_send_success(record_metadata):
     print(record_metadata.topic)
-    print(record_metadata.partition)
-    print(record_metadata.offset)
+    # print(record_metadata.partition)
+    # print(record_metadata.offset)
 
 
 def on_send_error(excp):
