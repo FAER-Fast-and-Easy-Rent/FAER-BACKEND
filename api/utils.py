@@ -12,3 +12,8 @@ def write_to_tmp(file):
 def remove_from_tmp(file_path):
     os.remove(file_path)
     print(f'File removed :{file_path}')
+
+
+def upload_to_storage(file_path):
+
+    return file_path

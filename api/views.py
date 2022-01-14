@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 from .models import Room
-from datetime import datetime
 from .producer import publish
+from datetime import datetime
 from .utils import write_to_tmp
 from .serializers import RoomSerializer
 from rest_framework import viewsets, status
