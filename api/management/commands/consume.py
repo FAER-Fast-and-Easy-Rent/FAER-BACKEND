@@ -24,4 +24,3 @@ class Command(BaseCommand):
             if message.key == b'create_room':
                 create_room(message.value)
                 remove_from_tmp(file_path=message.value['images'])
-                print("Room created successfuly.")

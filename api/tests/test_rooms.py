@@ -1,10 +1,20 @@
 from django.test import TestCase
 from rest_framework import status
+from api.models import Room
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class RoomsTests(TestCase):
+    file_name = 'media/banner.png'
 
-    def test_home_route_of_amenities(self):
+    data = {"title": "Room1", "price": 5000, "description": "This is home.", "home_type": "ROOM",
+            "room_type": "Single", "total_occupancy": 4, "total_bedrooms": 4,
+            "total_bathrooms": 4, "is_furnished": True, "has_kitchen": True,
+            "address": "Kathmandu", "images": open(file_name, "rb"), "user": "temp@email.com"}
+
+    def test_home_route_of_rooms(self):
         # Issue a GET request.
         response = self.client.get('/api/v1/rooms/')
 
@@ -14,26 +24,21 @@ class RoomsTests(TestCase):
         # Check that the content of the response contains messgae.
         self.assertEqual(response.content, b'[]')
 
-    def test_create_a_room(self):
-        data = {"is_furnished": True, "has_parking": True,
-                "has_garden": False, "has_terrace": False,
-                "has_attach_bathrooms": True, "floor_no": 1,
-                "total_rooms_in_house": 4}
-        response = self.client.post('/api/v1/amenties/', data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        data['amenty_id'] = 1
-        self.assertJSONEqual(response.content, data)
+    def test_create_and_retrieve_room_data(self):
+        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
+        header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
+        response = self.client.post('/api/v1/rooms/', self.data, **header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'OK')
+        self.assertEqual(response.data['data']['title'], self.data['title'])
+        self.assertEqual(response.data['data']['price'], self.data['price'])
 
-    def test_create_and_retrieve_amenity_data(self):
-        data = {"is_furnished": True, "has_parking": True,
-                "has_garden": False, "has_terrace": False,
-                "has_attach_bathrooms": True, "floor_no": 1,
-                "total_rooms_in_house": 4}
-        response1 = self.client.post('/api/v1/amenties/', data)
-        self.assertEqual(response1.status_code, status.HTTP_201_CREATED)
-        id = response1.json()['amenty_id']
-        data['amenty_id'] = id
-        self.assertJSONEqual(response1.content, data)
-        response2 = self.client.get(f'/api/v1/amenties/{id}/')
-        self.assertEqual(response2.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(response2.content, data)
+        data = self.data
+        room = Room.objects.create(price=data['price'], title=data['title'],
+                                   description=data['description'], home_type=data['home_type'],
+                                   room_type=data['room_type'], address=data['address'], owner=user)
+
+        response = self.client.get('/api/v1/rooms/')
+        self.assertEqual(response.data[0]['title'], room.title)
+        self.assertEqual(response.data[0]['price'], room.price)

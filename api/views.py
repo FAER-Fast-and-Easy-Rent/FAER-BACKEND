@@ -1,5 +1,6 @@
 # from django.shortcuts import render
 from .models import Room
+from datetime import datetime
 from .producer import publish
 from .utils import write_to_tmp
 from .serializers import RoomSerializer
@@ -41,7 +42,9 @@ class RoomViewSet(viewsets.ViewSet):
             data['images'] = write_to_tmp(file=request.FILES['images'])
             data['user'] = request.user.email
             publish(method="create_room", body=data)
-            return Response({'mesage': 'Welcome to post', 'data': data})
+
+            return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
+                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
