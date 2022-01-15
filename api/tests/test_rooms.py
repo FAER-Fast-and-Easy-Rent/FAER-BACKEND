@@ -30,7 +30,7 @@ class RoomsTests(TestCase):
         response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
         header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
         response = self.client.post('/api/v1/rooms/', self.data, **header)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['message'], 'OK')
         self.assertEqual(response.data['data']['title'], self.data['title'])
         self.assertEqual(response.data['data']['price'], self.data['price'])

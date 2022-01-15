@@ -43,8 +43,9 @@ class RoomViewSet(viewsets.ViewSet):
             data['user'] = request.user.email
             publish(method="create_room", body=data)
 
-            return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
-                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data})
+            return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
+                            'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},
+                            status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
