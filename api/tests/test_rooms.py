@@ -8,7 +8,7 @@ User = get_user_model()
 
 class RoomsTests(TestCase):
 
-    file_name = 'media/banner.png'
+    file_name = 'media/home at beach side.jpg'
 
     data = {"title": "Room1", "price": 5000, "description": "This is home.", "home_type": "ROOM",
             "room_type": "Single", "total_occupancy": 4, "total_bedrooms": 4,
