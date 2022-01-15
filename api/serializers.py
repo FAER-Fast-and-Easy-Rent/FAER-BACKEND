@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from .models import Media, Room
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 
 class MediaSerializer(serializers.ModelSerializer):
@@ -15,7 +16,7 @@ class MediaSerializer(serializers.ModelSerializer):
 
 
 class RoomSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=255)
+    title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)
     home_type = serializers.CharField()

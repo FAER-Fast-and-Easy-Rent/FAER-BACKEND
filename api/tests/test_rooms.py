@@ -39,7 +39,11 @@ class RoomsTests(TestCase):
         room = Room.objects.create(price=data['price'], title=data['title'],
                                    description=data['description'], home_type=data['home_type'],
                                    room_type=data['room_type'], address=data['address'], owner=user)
-
         response = self.client.get('/api/v1/rooms/')
         self.assertEqual(response.data[0]['title'], room.title)
         self.assertEqual(response.data[0]['price'], room.price)
+
+        # unique room with title validation test
+        response = self.client.post('/api/v1/rooms/', self.data, **header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['title'], ["This field must be unique."])
