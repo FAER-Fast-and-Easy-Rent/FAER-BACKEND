@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Room, Amenitie, Location, HouseRule
+from .models import Media, Room
 
 admin.site.register(Room)
-admin.site.register(Amenitie)
-admin.site.register(Location)
-admin.site.register(HouseRule)
+admin.site.register(Media)
 # Register your models here.

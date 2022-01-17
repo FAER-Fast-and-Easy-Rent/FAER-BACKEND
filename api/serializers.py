@@ -1,60 +1,47 @@
-# from re import search
-# from django.db.models import fields
+from .models import Media, Room
 from rest_framework import serializers
-# from rest_framework.utils import field_mapping
-from .models import Room, HouseRule, Amenitie, Location
+from rest_framework.validators import UniqueValidator
 
 
-class RoomSerializer(serializers.HyperlinkedModelSerializer):
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Media
+        fields = (
+            'file_name',
+            'url',
+            'mime_type',
+            'content_object'
+
+        )
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
+    price = serializers.IntegerField()
+    description = serializers.CharField(max_length=500)
+    home_type = serializers.CharField()
+    room_type = serializers.CharField()
+    total_occupancy = serializers.IntegerField()
+    total_bedrooms = serializers.IntegerField()
+    total_bathrooms = serializers.IntegerField()
+    is_furnished = serializers.BooleanField()
+    has_kitchen = serializers.BooleanField()
+    address = serializers.CharField()
+    images = serializers.ImageField(max_length=None)
+
     class Meta:
         model = Room
         fields = (
-            'property_id',
-            'category_type',
-            'images',
-            'no_of_room_to_rent',
+            'title',
             'price',
             'description',
-            'amenities',
-            'house_rule',
-            'location'
-        )
-
-
-class HouseRuleSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = HouseRule
-        fields = (
-            'rule_id',
-            'smoking_allowed',
-            'pets_allowed',
-            'couples_allowed',
-            'preferred_gender'
-        )
-
-
-class AmenitieSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Amenitie
-        fields = (
-            'amenty_id',
+            'home_type',
+            'room_type',
+            'total_occupancy',
+            'total_bedrooms',
+            'total_bathrooms',
             'is_furnished',
-            'has_parking',
-            'has_garden',
-            'has_terrace',
-            'has_attach_bathrooms',
-            'floor_no',
-            'total_rooms_in_house'
-        )
-
-
-class LocationSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Location
-        fields = (
-            'location_id',
-            'street_address',
-            'city',
-            'postal_code',
-            'state'
+            'has_kitchen',
+            'address',
+            'images'
         )

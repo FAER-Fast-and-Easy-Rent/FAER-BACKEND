@@ -4,21 +4,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from rest_framework import routers
 from . import views
 
-
-router = routers.DefaultRouter()
-router.register(r'rooms', views.RoomViewSet)
-router.register(r'amenties', views.AmentieViewSet)
-router.register(r'house_rules', views.HouseRuleViewSet)
-router.register(r'locations', views.LocationViewSet)
-
-
 urlpatterns = [
-    path('', include(router.urls)),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/user/', include('accounts.urls')),
+    path('token/', TokenObtainPairView.as_view(), name='token'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('auth/user/', include('accounts.urls'))
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('rooms/', views.RoomViewSet.as_view({'get': 'list', 'post': 'create'}), name='rooms'),
 ]
