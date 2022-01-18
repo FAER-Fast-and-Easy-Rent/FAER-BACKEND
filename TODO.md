@@ -25,6 +25,7 @@
   - Added all tests for accounts and verified
 
 - [x] Setting up Models(Room and Media) and kafka
+
   - Added Room and Media model along with its serializer and views
   - Created compose file for Kafka
   - Created producer and consumer for the app
@@ -40,3 +41,7 @@
 - [x] Add feature for the vehicle
   - Added model for Vehicle
   - Added serializer for vehicle
+  - Added viewset for the vehicle
+  - Updated serializer fields and viewsets
+  - Added consumer for the Vehicle
+  - Added task/function for vehicle creation

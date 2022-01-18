@@ -79,7 +79,7 @@ class Vehicle(models.Model):
     )
 
     vehicle_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     price = models.IntegerField()
     description = models.TextField(max_length=500, blank=True, default='')
     

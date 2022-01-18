@@ -1,6 +1,6 @@
 import json
 from kafka import KafkaConsumer
-from api.tasks import create_room
+from api.tasks import create_room,create_vehicle
 from api.utils import remove_from_tmp
 from django.core.management.base import BaseCommand
 
@@ -23,4 +23,8 @@ class Command(BaseCommand):
 
             if message.key == b'create_room':
                 create_room(message.value)
+                remove_from_tmp(file_path=message.value['images'])
+            
+            if message.key == b'create_vehicle':
+                create_vehicle(message.value)
                 remove_from_tmp(file_path=message.value['images'])
