@@ -1,4 +1,4 @@
-from .models import Media, Room
+from .models import Media, Room, Vehicle
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -47,7 +47,8 @@ class RoomSerializer(serializers.ModelSerializer):
         )
 
 class VehicleSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
+
+    name = serializers.CharField(max_length=255)
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)
     capacity = serializers.IntegerField()
@@ -57,7 +58,7 @@ class VehicleSerializer(serializers.ModelSerializer):
     images = serializers.ImageField(max_length=None)
 
     class Meta:
-        model = Room
+        model = Vehicle
         fields = (
             'name',
             'price',

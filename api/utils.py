@@ -5,7 +5,7 @@ def write_to_tmp(file):
     file_path = f'temp/{file}'
     with open(file_path, 'wb+') as f:
         f.write(file.read())
-    print(file.name, file_path)
+    print(f'File added :{file_path}')
     return file_path
 
 

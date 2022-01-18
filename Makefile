@@ -41,4 +41,4 @@ clean:
 # Test
 .PHONY: test
 test:
-	python manage.py test
+	python manage.py test -v2
