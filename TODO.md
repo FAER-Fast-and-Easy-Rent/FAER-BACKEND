@@ -36,3 +36,5 @@
   - Changed the response status for creation of the room i.e 201
   - Added validators for a unique title
   - Added tests for room creation ,retrieval and validation
+
+- [x] Add feature for the vehicle
