@@ -2,11 +2,11 @@
 from .producer import publish
 from datetime import datetime
 from .utils import write_to_tmp
-from .models import Room,Vehicle
+from .models import Room, Vehicle
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission
-from .serializers import RoomSerializer,VehicleSerializer
+from .serializers import RoomSerializer, VehicleSerializer
 from rest_framework.parsers import FormParser, MultiPartParser
 
 
@@ -18,9 +18,9 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 
     def has_permission(self, request, view):
         SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
-        if (request.method in SAFE_METHODS or
-            request.user and
-                request.user.is_authenticated):
+        if (request.method in SAFE_METHODS
+            or request.user
+                and request.user.is_authenticated):
             return True
         return False
 
@@ -50,6 +50,7 @@ class RoomViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'mesage': 'success'})
+
 
 class VehicleViewSet(viewsets.ViewSet):
     parser_classes = (FormParser, MultiPartParser)

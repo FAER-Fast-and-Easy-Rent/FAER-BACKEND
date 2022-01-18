@@ -46,6 +46,7 @@ class RoomSerializer(serializers.ModelSerializer):
             'images'
         )
 
+
 class VehicleSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(max_length=255)

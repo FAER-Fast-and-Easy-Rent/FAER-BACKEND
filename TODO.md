@@ -45,3 +45,4 @@
   - Updated serializer fields and viewsets
   - Added consumer for the Vehicle
   - Added task/function for vehicle creation
+  - Added Tests for the vehicle creation ,retrieval and validation

@@ -1,6 +1,6 @@
 from django.db import transaction
 from .utils import upload_to_storage
-from api.models import Room, Media,Vehicle
+from api.models import Room, Media, Vehicle
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -23,6 +23,7 @@ def create_room(data):
     else:
         print('User Not Found. Data not created')
 
+
 def create_vehicle(data):
     if User.objects.filter(email=data['user']).exists():
         with transaction.atomic():
@@ -31,8 +32,8 @@ def create_vehicle(data):
             user = User.objects.get(email=data['user'])
 
             vehicle = Vehicle.objects.create(name=data['name'], price=data['price'], description=data['description'],
-                                       capacity=data['capacity'], vehicle_type=data['vehicle_type'],
-                                       brand=data['brand'],model=data['model'], owner=user)
+                                             capacity=data['capacity'], vehicle_type=data['vehicle_type'],
+                                             brand=data['brand'], model=data['model'], owner=user)
             Media.objects.create(content_object=vehicle,
                                  file_name=data['images'], url=data['images'], mime_type='image/png')
 

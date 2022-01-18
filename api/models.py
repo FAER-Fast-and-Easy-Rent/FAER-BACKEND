@@ -70,6 +70,7 @@ class Room(models.Model):
     def __str__(self):
         return str(self.room_id)
 
+
 class Vehicle(models.Model):
 
     vehicle_types = (
@@ -82,12 +83,12 @@ class Vehicle(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
     description = models.TextField(max_length=500, blank=True, default='')
-    
+
     capacity = models.IntegerField()
     vehicle_type = models.CharField(max_length=1, choices=vehicle_types)
-    brand = models.CharField(max_length=50,null=True, blank=True)
-    model = models.CharField(max_length=50,null=True, blank=True)
-    plate_number = models.CharField(max_length=100,null=True, blank=True)
+    brand = models.CharField(max_length=50, null=True, blank=True)
+    model = models.CharField(max_length=50, null=True, blank=True)
+    plate_number = models.CharField(max_length=100, null=True, blank=True)
 
     images = GenericRelation(Media)
     owner = models.ForeignKey(User, related_name='vehicles', on_delete=models.CASCADE)
