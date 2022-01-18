@@ -45,3 +45,26 @@ class RoomSerializer(serializers.ModelSerializer):
             'address',
             'images'
         )
+
+class RoomSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
+    price = serializers.IntegerField()
+    description = serializers.CharField(max_length=500)
+    capacity = serializers.IntegerField()
+    vehicle_type = serializers.CharField()
+    brand = serializers.CharField()
+    model = serializers.CharField()
+    images = serializers.ImageField(max_length=None)
+
+    class Meta:
+        model = Room
+        fields = (
+            'name',
+            'price',
+            'description',
+            'capacity',
+            'vehicle_type',
+            'brand',
+            'model',
+            'images'
+        )

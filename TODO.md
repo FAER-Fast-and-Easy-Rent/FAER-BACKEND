@@ -38,3 +38,5 @@
   - Added tests for room creation ,retrieval and validation
 
 - [x] Add feature for the vehicle
+  - Added model for Vehicle
+  - Added serializer for vehicle
