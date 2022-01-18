@@ -46,7 +46,7 @@ class RoomSerializer(serializers.ModelSerializer):
             'images'
         )
 
-class RoomSerializer(serializers.ModelSerializer):
+class VehicleSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)

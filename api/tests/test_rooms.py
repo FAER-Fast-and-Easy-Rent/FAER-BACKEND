@@ -1,6 +1,6 @@
+from api.models import Room
 from django.test import TestCase
 from rest_framework import status
-from api.models import Room
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
