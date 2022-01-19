@@ -8,7 +8,7 @@ User = get_user_model()
 
 class VehiclesTests(TestCase):
 
-    file_name = 'media/hyundai-kona.jpg'
+    file_name = 'media/car.jpg'
 
     data = {"name": "Hyundai Konka", "price": 5000, "description": "This is car.", "capacity": 6, "vehicle_type": "Car",
             "brand": "Hyundai", "model": "SUV", "images": open(file_name, "rb")}

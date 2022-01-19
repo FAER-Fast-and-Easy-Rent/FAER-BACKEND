@@ -46,3 +46,5 @@
   - Added consumer for the Vehicle
   - Added task/function for vehicle creation
   - Added Tests for the vehicle creation ,retrieval and validation
+  - Refactored some of the components
+  - Added Models fields description to todo.md
