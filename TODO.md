@@ -25,6 +25,7 @@
   - Added all tests for accounts and verified
 
 - [x] Setting up Models(Room and Media) and kafka
+
   - Added Room and Media model along with its serializer and views
   - Created compose file for Kafka
   - Created producer and consumer for the app
@@ -36,3 +37,14 @@
   - Changed the response status for creation of the room i.e 201
   - Added validators for a unique title
   - Added tests for room creation ,retrieval and validation
+
+- [x] Add feature for the vehicle
+  - Added model for Vehicle
+  - Added serializer for vehicle
+  - Added viewset for the vehicle
+  - Updated serializer fields and viewsets
+  - Added consumer for the Vehicle
+  - Added task/function for vehicle creation
+  - Added Tests for the vehicle creation ,retrieval and validation
+  - Refactored some of the components
+  - Added Models fields description to todo.md

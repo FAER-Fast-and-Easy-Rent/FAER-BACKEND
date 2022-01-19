@@ -1,4 +1,4 @@
-from .models import Media, Room
+from .models import Media, Room, Vehicle
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -43,5 +43,30 @@ class RoomSerializer(serializers.ModelSerializer):
             'is_furnished',
             'has_kitchen',
             'address',
+            'images'
+        )
+
+
+class VehicleSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(max_length=255)
+    price = serializers.IntegerField()
+    description = serializers.CharField(max_length=500)
+    capacity = serializers.IntegerField()
+    vehicle_type = serializers.CharField()
+    brand = serializers.CharField()
+    model = serializers.CharField()
+    images = serializers.ImageField(max_length=None)
+
+    class Meta:
+        model = Vehicle
+        fields = (
+            'name',
+            'price',
+            'description',
+            'capacity',
+            'vehicle_type',
+            'brand',
+            'model',
             'images'
         )
