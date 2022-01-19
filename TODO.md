@@ -51,3 +51,6 @@
   - Added Models fields description to todo.md
 
 - [x] Add reservations feature for the rooms and vehicle
+  
+  - Added Model for the Reservation
+  
