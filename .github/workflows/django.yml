@@ -37,7 +37,7 @@ jobs:
       run: |
         pip install coverage
         coverage run manage.py test
-        coverage report
+        coverage report -i
     - name: Run Tests
       run: |
         python manage.py test
