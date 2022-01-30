@@ -1,7 +1,7 @@
 import json
 from kafka import KafkaConsumer
 from api.tasks import create_room, create_vehicle
-from api.utils import remove_from_tmp
+# from api.utils import remove_from_tmp
 from django.core.management.base import BaseCommand
 
 
