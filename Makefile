@@ -6,6 +6,7 @@ SHELL := /bin/bash
 help:
 	@echo "Commands:"
 	@echo "venv    : creates development environment."
+	@echo "start   : starts app."
 	@echo "install : Installs all packages."
 	@echo "style   : runs style formatting."
 	@echo "clean   : cleans all unnecessary files."
@@ -16,6 +17,13 @@ help:
 .ONESHELL:
 venv:
 	python3 -m venv venv
+
+# Environment
+.ONESHELL:
+start:
+	pip install -r requirements.txt
+	docker-compose up -d
+	python manage.py runserver
 
 # Install
 .PHONY: install
@@ -31,7 +39,6 @@ style:
 # Cleaning
 .PHONY: clean
 clean:
-	rm -rf venv
 	find . -type f -name "*.DS_Store" -ls -delete
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
 	find . | grep -E ".pytest_cache" | xargs rm -rf

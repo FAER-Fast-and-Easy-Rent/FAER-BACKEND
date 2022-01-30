@@ -21,23 +21,25 @@ class Media(models.Model):
 
 
 class Reservation(models.Model):
-
     reservation_id = models.AutoField(primary_key=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     price = models.IntegerField()
     total = models.IntegerField()
 
+    # status
     content_type = models.ForeignKey(ContentType, related_name='reservations', on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    owner = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.media_id)
+
+
 class Room(models.Model):
     home_types = (
         ("R", "ROOM"),

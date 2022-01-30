@@ -70,3 +70,5 @@ class VehicleSerializer(serializers.ModelSerializer):
             'model',
             'images'
         )
+
+# class ReservationSerializer(serializers.ModelSerializer):

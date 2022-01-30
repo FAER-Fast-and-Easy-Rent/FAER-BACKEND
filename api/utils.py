@@ -1,4 +1,6 @@
 import os
+import cv2
+import numpy as np
 
 
 def write_to_tmp(file):
@@ -7,6 +9,14 @@ def write_to_tmp(file):
         f.write(file.read())
     print(f'File added :{file_path}')
     return file_path
+
+
+def serializeImg(img):
+    image = cv2.imdecode(np.frombuffer(img.read(), np.uint8), cv2.IMREAD_COLOR)
+    _, img_buffer_arr = cv2.imencode(".jpg", image)
+    img_bytes = img_buffer_arr.tobytes()
+    print(len(img_bytes))
+    return img_bytes
 
 
 def remove_from_tmp(file_path):
