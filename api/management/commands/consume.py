@@ -1,4 +1,3 @@
-import os
 import json
 from kafka import KafkaConsumer
 from api.tasks import create_room, create_vehicle
@@ -24,16 +23,14 @@ class Command(BaseCommand):
                                  )
 
         print('Start consuming')
-        print ("Is it Directory?" + str(os.path.isdir('temp')))
-        print(os.listdir('temp'))
         for message in consumer:
             print("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition,
                                                  message.offset, message.key, message.value))
 
             if message.key == b'create_room':
                 create_room(message.value)
-                remove_from_tmp(file_path=message.value['images'])
+                # remove_from_tmp(file_path=message.value['images'])
 
             if message.key == b'create_vehicle':
                 create_vehicle(message.value)
-                remove_from_tmp(file_path=message.value['images'])
+                # remove_from_tmp(file_path=message.value['images'])
