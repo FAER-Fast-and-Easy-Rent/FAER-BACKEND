@@ -1,3 +1,4 @@
+import os
 import json
 from kafka import KafkaConsumer
 from api.tasks import create_room, create_vehicle
