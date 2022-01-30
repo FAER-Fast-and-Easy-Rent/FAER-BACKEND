@@ -23,6 +23,8 @@ class Command(BaseCommand):
                                  )
 
         print('Start consuming')
+        print ("Is it Directory?" + str(os.path.isdir('temp')))
+        print(os.listdir('temp'))
         for message in consumer:
             print("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition,
                                                  message.offset, message.key, message.value))

@@ -25,7 +25,10 @@ def serializeImg(img):
 
 
 def remove_from_tmp(file_path):
+    print ("Is it Directory?" + str(os.path.isdir('temp')))
+    print(os.listdir('temp'))
     os.remove(file_path)
+
     print(f'File removed :{file_path}')
 
 
