@@ -49,7 +49,7 @@ class RetrieveUserView(APIView):
         try:
             user = request.user
             # user = UserSerializer(user)
-            data={'name':user.name,'email':user.email}
+            data = {'name': user.name, 'email': user.email}
             return Response({'user': data}, status=status.HTTP_200_OK)
         except Exception:
             return Response({'error': MESSAGE}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
