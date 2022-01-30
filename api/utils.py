@@ -9,6 +9,9 @@ def write_to_tmp(file):
         f.write(file.read())
 
     print(f'File written :{os.path.isfile(file_path)}')
+    print ("Is it Directory?" + str(os.path.isdir('temp')))
+    print(os.listdir('temp'))
+
     print(f'File added :{file_path}')
     return file_path
 
