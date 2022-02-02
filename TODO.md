@@ -51,6 +51,17 @@
   - Added Models fields description to todo.md
 
 - [x] Add reservations feature for the rooms and vehicle
-  
+
   - Added Model for the Reservation
-  
+
+- [x] Deployed the App
+  - Added docker compose file for the kafka
+  - Added Cloudkarafka servers setup in the producer and consumer
+  - Added procfile with heroku setup
+  - Added postgres setup
+  - Deployed to heroku
+
+- [x] Added factory models
+  - Installed factory boy and faker
+  - Created factory for user, room, vehicle and media
+  - Created command to seed the factory
