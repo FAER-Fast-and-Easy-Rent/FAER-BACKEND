@@ -26,8 +26,8 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 
 
 class RoomViewSet(viewsets.ViewSet):
-    parser_classes = (FormParser, MultiPartParser)
     serializer_class = RoomSerializer
+    parser_classes = (FormParser, MultiPartParser)
     permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     def list(self, request):
@@ -53,8 +53,8 @@ class RoomViewSet(viewsets.ViewSet):
 
 
 class VehicleViewSet(viewsets.ViewSet):
-    parser_classes = (FormParser, MultiPartParser)
     serializer_class = VehicleSerializer
+    parser_classes = (FormParser, MultiPartParser)
     permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     def list(self, request):

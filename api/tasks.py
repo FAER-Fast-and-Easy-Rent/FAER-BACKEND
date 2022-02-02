@@ -16,7 +16,7 @@ def create_room(data):
             room = Room.objects.create(price=data['price'], title=data['title'], description=data['description'],
                                        home_type=data['home_type'], room_type=data['room_type'],
                                        address=data['address'], owner=user)
-            Media.objects.create(content_object=room,
+            Media.objects.create(tagged_object=room,
                                  file_name=data['images'], url=data['images'], mime_type='image/png')
 
             print("Room created successfuly.")
@@ -34,7 +34,7 @@ def create_vehicle(data):
             vehicle = Vehicle.objects.create(name=data['name'], price=data['price'], description=data['description'],
                                              capacity=data['capacity'], vehicle_type=data['vehicle_type'],
                                              brand=data['brand'], model=data['model'], owner=user)
-            Media.objects.create(content_object=vehicle,
+            Media.objects.create(tagged_object=vehicle,
                                  file_name=data['images'], url=data['images'], mime_type='image/png')
 
             print("Vehicle created successfuly.")

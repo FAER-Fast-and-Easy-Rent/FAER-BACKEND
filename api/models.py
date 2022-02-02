@@ -13,7 +13,7 @@ class Media(models.Model):
     mime_type = models.CharField(max_length=50, null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='medias', on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    tagged_object = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -30,7 +30,7 @@ class Reservation(models.Model):
     # status
     content_type = models.ForeignKey(ContentType, related_name='reservations', on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    tagged_object = GenericForeignKey('content_type', 'object_id')
 
     user = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

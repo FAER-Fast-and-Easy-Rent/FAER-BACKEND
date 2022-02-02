@@ -15,6 +15,22 @@ class MediaSerializer(serializers.ModelSerializer):
         )
 
 
+class MediaObjectRelatedField(serializers.RelatedField):
+    """
+    A custom field to use for the `content_object` generic relationship.
+    """
+
+    def to_representation(self, value):
+        """
+        Serialize tagged objects to a simple textual representation.
+        """
+        if isinstance(value, Room):
+            return 'Room: ' + value.images
+        elif isinstance(value, Vehicle):
+            return 'Vehicle: ' + value.images
+        raise Exception('Unexpected type of tagged object')
+
+
 class RoomSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
     price = serializers.IntegerField()
@@ -57,6 +73,7 @@ class VehicleSerializer(serializers.ModelSerializer):
     brand = serializers.CharField()
     model = serializers.CharField()
     images = serializers.ImageField(max_length=None)
+    # images = MediaObjectRelatedField(many=True,read_only=True)
 
     class Meta:
         model = Vehicle
