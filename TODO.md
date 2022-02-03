@@ -55,12 +55,14 @@
   - Added Model for the Reservation
 
 - [x] Deployed the App
+
   - Added docker compose file for the kafka
   - Added Cloudkarafka servers setup in the producer and consumer
   - Added procfile with heroku setup
   - Added postgres setup
   - Deployed to heroku
   - Refactored serializers for the images
+  - Refactored user serializer
 
 - [x] Added factory models
   - Installed factory boy and faker
