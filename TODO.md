@@ -60,6 +60,7 @@
   - Added procfile with heroku setup
   - Added postgres setup
   - Deployed to heroku
+  - Refactored serializers for the images
 
 - [x] Added factory models
   - Installed factory boy and faker

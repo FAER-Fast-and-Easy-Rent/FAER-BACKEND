@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(write_only=True, required=True)
+    name = serializers.CharField(required=True)
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
@@ -19,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('name', 'email', 'password', 're_password')
+        extra_kwargs = {'password': {'write_only': True}, 're_password': {'write_only': True}}
 
     def validate(self, attrs):
         if attrs['password'] != attrs['re_password']:
