@@ -20,6 +20,26 @@ class Media(models.Model):
         return str(self.media_id)
 
 
+class Reservation(models.Model):
+    reservation_id = models.AutoField(primary_key=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    price = models.IntegerField()
+    total = models.IntegerField()
+
+    # status
+    content_type = models.ForeignKey(ContentType, related_name='reservations', on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    user = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.media_id)
+
+
 class Room(models.Model):
     home_types = (
         ("R", "ROOM"),
@@ -63,6 +83,7 @@ class Room(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     images = GenericRelation(Media)
+    reservations = GenericRelation(Reservation)
     owner = models.ForeignKey(User, related_name='rooms', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -91,6 +112,7 @@ class Vehicle(models.Model):
     plate_number = models.CharField(max_length=100, null=True, blank=True)
 
     images = GenericRelation(Media)
+    reservations = GenericRelation(Reservation)
     owner = models.ForeignKey(User, related_name='vehicles', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

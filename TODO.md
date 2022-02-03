@@ -39,6 +39,7 @@
   - Added tests for room creation ,retrieval and validation
 
 - [x] Add feature for the vehicle
+
   - Added model for Vehicle
   - Added serializer for vehicle
   - Added viewset for the vehicle
@@ -48,3 +49,22 @@
   - Added Tests for the vehicle creation ,retrieval and validation
   - Refactored some of the components
   - Added Models fields description to todo.md
+
+- [x] Add reservations feature for the rooms and vehicle
+
+  - Added Model for the Reservation
+
+- [x] Deployed the App
+
+  - Added docker compose file for the kafka
+  - Added Cloudkarafka servers setup in the producer and consumer
+  - Added procfile with heroku setup
+  - Added postgres setup
+  - Deployed to heroku
+  - Refactored serializers for the images
+  - Refactored user serializer
+
+- [x] Added factory models
+  - Installed factory boy and faker
+  - Created factory for user, room, vehicle and media
+  - Created command to seed the factory

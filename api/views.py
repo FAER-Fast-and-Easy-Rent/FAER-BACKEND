@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 from .producer import publish
 from datetime import datetime
-from .utils import write_to_tmp
+from .utils import write_to_tmp  # , serializeImg
 from .models import Room, Vehicle
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -26,8 +26,8 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 
 
 class RoomViewSet(viewsets.ViewSet):
-    parser_classes = (FormParser, MultiPartParser)
     serializer_class = RoomSerializer
+    parser_classes = (FormParser, MultiPartParser)
     permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     def list(self, request):
@@ -38,8 +38,8 @@ class RoomViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = RoomSerializer(data=request.data)
         if serializer.is_valid():
-            data = serializer.data
-            data['images'] = write_to_tmp(file=request.FILES['images'])
+            data = serializer.validated_data
+            data['image'] = write_to_tmp(file=data['image'])
             data['user'] = request.user.email
             publish(method="create_room", body=data)
 
@@ -53,8 +53,8 @@ class RoomViewSet(viewsets.ViewSet):
 
 
 class VehicleViewSet(viewsets.ViewSet):
-    parser_classes = (FormParser, MultiPartParser)
     serializer_class = VehicleSerializer
+    parser_classes = (FormParser, MultiPartParser)
     permission_classes = [IsAuthenticatedOrReadOnly, ]
 
     def list(self, request):
@@ -65,11 +65,11 @@ class VehicleViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = VehicleSerializer(data=request.data)
         if serializer.is_valid():
-            data = serializer.data
-            data['images'] = write_to_tmp(file=request.FILES['images'])
+            data = serializer.validated_data
+            data['image'] = write_to_tmp(file=data['image'])
             data['user'] = request.user.email
-            print(request.data['images'])
             publish(method="create_vehicle", body=data)
+            # publish(method="save_image", body=str(request.FILES['images'].read()))
 
             return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},

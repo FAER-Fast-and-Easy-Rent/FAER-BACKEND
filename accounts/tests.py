@@ -58,7 +58,7 @@ class AccountsTests(TestCase):
             '/api/v1/auth/user/register', {'email': 'test@email.com',
                                            'name': 'test', 'password': 'password@123', 're_password': 'password@123'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertJSONEqual(response.content, {'email': 'test@email.com'})
+        self.assertJSONEqual(response.content, {'name': 'test', 'email': 'test@email.com'})
 
     def test_auth_user_register_with_no_fields(self):
         response = self.client.post('/api/v1/auth/user/register')
