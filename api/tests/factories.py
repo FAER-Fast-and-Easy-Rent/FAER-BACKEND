@@ -11,7 +11,8 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
 
     name = fake.name()
-    email = ''.join(name.lower().split())+'@email.com'
+    # email = fake.word().lower()+''.join(name.lower().split())+'@email.com'
+    email = fake.word().lower()+fake.email()
     password = fake.password()
 
 
@@ -33,7 +34,7 @@ room_types = (
     ("Q", "Queen"),
     ("K", "King"),
 )
-owner = UserFactory()
+# owner = UserFactory()
 
 
 class RoomFactory(factory.django.DjangoModelFactory):
@@ -67,7 +68,7 @@ class RoomFactory(factory.django.DjangoModelFactory):
     latitude = fake.latitude()
     longitude = fake.longitude()
 
-    owner = owner
+    owner = factory.SubFactory(UserFactory)
 
 
 class VehicleFactory(factory.django.DjangoModelFactory):
@@ -84,7 +85,7 @@ class VehicleFactory(factory.django.DjangoModelFactory):
     model = fake.sentence(fake.random_int(2, 5))
     plate_number = fake.license_plate()
 
-    owner = owner
+    owner = factory.SubFactory(UserFactory)
 
 
 class MediaFactory(factory.django.DjangoModelFactory):
@@ -94,4 +95,20 @@ class MediaFactory(factory.django.DjangoModelFactory):
     file_name = fake.sentence(fake.random_int(3, 6))
     url = fake.url()
     mime_type = 'image/jpg'
-    tagged_object = factory.SubFactory(VehicleFactory)
+    content_object = factory.SubFactory(VehicleFactory)
+
+
+def seed_data(num=1):
+    try:
+        user = UserFactory.create()
+        vehicle = VehicleFactory.create(owner=user)
+        MediaFactory(content_object=vehicle)
+        MediaFactory(content_object=vehicle)
+        print(f"Vehicle with name : {vehicle.name} created.")
+
+        room = RoomFactory.create(owner=user)
+        MediaFactory(content_object=room)
+        MediaFactory(content_object=room)
+        print(f"Room with name : {room.title} created.")
+    except Exception as E:
+        print("An exception occurred", E)

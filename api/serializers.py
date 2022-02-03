@@ -9,9 +9,7 @@ class MediaSerializer(serializers.ModelSerializer):
         fields = (
             'file_name',
             'url',
-            'mime_type',
-            'content_object'
-
+            'mime_type'
         )
 
 
@@ -22,16 +20,14 @@ class MediaObjectRelatedField(serializers.RelatedField):
 
     def to_representation(self, value):
         """
-        Serialize tagged objects to a simple textual representation.
+        Serialize.
         """
-        if isinstance(value, Room):
-            return 'Room: ' + value.images
-        elif isinstance(value, Vehicle):
-            return 'Vehicle: ' + value.images
-        raise Exception('Unexpected type of tagged object')
+        serializer = MediaSerializer(value)
+
+        return serializer.data
 
 
-class RoomSerializer(serializers.ModelSerializer):
+class RoomSerializer(serializers.HyperlinkedModelSerializer):
     title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)
@@ -43,9 +39,12 @@ class RoomSerializer(serializers.ModelSerializer):
     is_furnished = serializers.BooleanField()
     has_kitchen = serializers.BooleanField()
     address = serializers.CharField()
-    images = serializers.ImageField(max_length=None)
+    image = serializers.ImageField(max_length=None, write_only=True)
+
+    images = MediaObjectRelatedField(read_only=True, many=True)
 
     class Meta:
+        depth = 1
         model = Room
         fields = (
             'title',
@@ -59,11 +58,13 @@ class RoomSerializer(serializers.ModelSerializer):
             'is_furnished',
             'has_kitchen',
             'address',
-            'images'
+            'images',
+            'image'
         )
+        read_only_fields = ('images',)
 
 
-class VehicleSerializer(serializers.ModelSerializer):
+class VehicleSerializer(serializers.HyperlinkedModelSerializer):
 
     name = serializers.CharField(max_length=255)
     price = serializers.IntegerField()
@@ -72,10 +73,12 @@ class VehicleSerializer(serializers.ModelSerializer):
     vehicle_type = serializers.CharField()
     brand = serializers.CharField()
     model = serializers.CharField()
-    images = serializers.ImageField(max_length=None)
-    # images = MediaObjectRelatedField(many=True,read_only=True)
+    image = serializers.ImageField(max_length=None, write_only=True)
+
+    images = MediaObjectRelatedField(read_only=True, many=True)
 
     class Meta:
+        depth = 1
         model = Vehicle
         fields = (
             'name',
@@ -85,7 +88,9 @@ class VehicleSerializer(serializers.ModelSerializer):
             'vehicle_type',
             'brand',
             'model',
-            'images'
+            'images',
+            'image'
         )
+        read_only_fields = ('images',)
 
 # class ReservationSerializer(serializers.ModelSerializer):

@@ -38,8 +38,8 @@ class RoomViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = RoomSerializer(data=request.data)
         if serializer.is_valid():
-            data = serializer.data
-            data['images'] = write_to_tmp(file=request.FILES['images'])
+            data = serializer.validated_data
+            data['image'] = write_to_tmp(file=data['image'])
             data['user'] = request.user.email
             publish(method="create_room", body=data)
 
@@ -65,8 +65,8 @@ class VehicleViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = VehicleSerializer(data=request.data)
         if serializer.is_valid():
-            data = serializer.data
-            data['images'] = write_to_tmp(file=request.FILES['images'])
+            data = serializer.validated_data
+            data['image'] = write_to_tmp(file=data['image'])
             data['user'] = request.user.email
             publish(method="create_vehicle", body=data)
             # publish(method="save_image", body=str(request.FILES['images'].read()))

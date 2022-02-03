@@ -13,7 +13,7 @@ class RoomsTests(TestCase):
     data = {"title": "Room1", "price": 5000, "description": "This is home.", "home_type": "ROOM",
             "room_type": "Single", "total_occupancy": 4, "total_bedrooms": 4,
             "total_bathrooms": 4, "is_furnished": True, "has_kitchen": True,
-            "address": "Kathmandu", "images": open(file_name, "rb")}
+            "address": "Kathmandu", "image": open(file_name, "rb")}
 
     def test_home_route_of_rooms(self):
         # Issue a GET request.
