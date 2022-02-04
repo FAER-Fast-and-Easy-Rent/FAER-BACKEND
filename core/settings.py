@@ -170,4 +170,4 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 # CSRF_TRUSTED_ORIGINS = ['https://*.*.gitpod.io']
-CSRF_TRUSTED_ORIGINS = ['https://3000-faerfastandeasy-faerui-q12z5e3mve7.ws-us28.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://3000-faerfastandeasy-faerui-q12z5e3mve7.ws-us28.gitpod.io','https://faer.vercel.app']
