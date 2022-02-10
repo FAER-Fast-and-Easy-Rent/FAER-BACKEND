@@ -2,7 +2,7 @@ import json
 from tqdm import tqdm
 from faker import Faker
 from api.models import Room, Vehicle, Media
-from multiprocessing import Pool, cpu_count
+# from multiprocessing import Pool, cpu_count
 from django.contrib.auth import get_user_model
 
 fake = Faker()
@@ -41,8 +41,11 @@ def seed_rooms():
     with open('datas/rooms.json', 'r') as f:
         datas = json.load(f)
     if datas:
-        with Pool(processes=cpu_count()) as pool:
-            pool.map(create_room, tqdm(datas, desc="Seeding Rooms Data :"))
+        for data in tqdm(datas):
+            create_room(data)
+
+        # with Pool(processes=cpu_count()) as pool:
+        #     pool.map(create_room, tqdm(datas, desc="Seeding Rooms Data :"))
 
 
 def create_vehicle(data):
@@ -59,5 +62,7 @@ def seed_vehicles():
     with open('datas/vehicles.json', 'r') as f:
         datas = json.load(f)
     if datas:
-        with Pool(processes=cpu_count()) as pool:
-            pool.map(create_vehicle, tqdm(datas, desc="Seeding Vehicle Data :"))
+        for data in tqdm(datas):
+            create_vehicle(data)
+        # with Pool(processes=cpu_count()) as pool:
+        #     pool.map(create_vehicle, tqdm(datas, desc="Seeding Vehicle Data :"))
