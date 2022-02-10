@@ -68,3 +68,5 @@
   - Installed factory boy and faker
   - Created factory for user, room, vehicle and media
   - Created command to seed the factory
+  - Scaped the internet and populated db with some data
+  - Added functionality to load data to db

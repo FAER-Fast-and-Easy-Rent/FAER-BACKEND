@@ -41,26 +41,26 @@ class Reservation(models.Model):
 
 
 class Room(models.Model):
-    home_types = (
-        ("R", "ROOM"),
-        ("F", "FLAT"),
-        ("A", "APPARTMENT"),
-        ("H", "HOUSE")
-    )
-    room_types = (
-        ("S", "Single"),
-        ("D", "Double"),
-        ("T", "Triple"),
-        ("Q", "Queen"),
-        ("K", "King"),
-    )
+    # home_types = (
+    #     ("R", "ROOM"),
+    #     ("F", "FLAT"),
+    #     ("A", "APPARTMENT"),
+    #     ("H", "HOUSE")
+    # )
+    # room_types = (
+    #     ("S", "Single"),
+    #     ("D", "Double"),
+    #     ("T", "Triple"),
+    #     ("Q", "Queen"),
+    #     ("K", "King"),
+    # )
     room_id = models.AutoField(primary_key=True)
     price = models.IntegerField()
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(max_length=500, blank=True, default='')
 
-    home_type = models.CharField(max_length=1, choices=home_types)
-    room_type = models.CharField(max_length=1, choices=room_types)
+    home_type = models.CharField(max_length=100)  # ,choices=home_types)
+    room_type = models.CharField(max_length=100)  # ,choices=room_types)
 
     total_occupancy = models.IntegerField(null=True, blank=True)
     total_bedrooms = models.IntegerField(null=True, blank=True)
@@ -94,11 +94,11 @@ class Room(models.Model):
 
 class Vehicle(models.Model):
 
-    vehicle_types = (
-        ("B", "Bike"),
-        ("C", "Car"),
-        ("P", "Pickup"),
-    )
+    # vehicle_types = (
+    #     ("B", "Bike"),
+    #     ("C", "Car"),
+    #     ("P", "Pickup"),
+    # )
 
     vehicle_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -106,7 +106,7 @@ class Vehicle(models.Model):
     description = models.TextField(max_length=500, blank=True, default='')
 
     capacity = models.IntegerField()
-    vehicle_type = models.CharField(max_length=1, choices=vehicle_types)
+    vehicle_type = models.CharField(max_length=100)  # , choices=vehicle_types)
     brand = models.CharField(max_length=50, null=True, blank=True)
     model = models.CharField(max_length=50, null=True, blank=True)
     plate_number = models.CharField(max_length=100, null=True, blank=True)
