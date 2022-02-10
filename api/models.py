@@ -8,7 +8,7 @@ User = get_user_model()
 
 class Media(models.Model):
     media_id = models.AutoField(primary_key=True)
-    file_name = models.CharField(max_length=50)
+    file_name = models.CharField(max_length=100)
     url = models.URLField(max_length=200)
     mime_type = models.CharField(max_length=50, null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='medias', on_delete=models.CASCADE)
@@ -57,7 +57,7 @@ class Room(models.Model):
     room_id = models.AutoField(primary_key=True)
     price = models.IntegerField()
     title = models.CharField(max_length=255, unique=True)
-    description = models.TextField(max_length=1000, blank=True, default='')
+    description = models.TextField(max_length=500, blank=True, default='')
 
     home_type = models.CharField(max_length=100)  # ,choices=home_types)
     room_type = models.CharField(max_length=100)  # ,choices=room_types)
