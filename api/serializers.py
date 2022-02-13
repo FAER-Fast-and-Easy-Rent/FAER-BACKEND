@@ -1,4 +1,4 @@
-from .models import Media, Room, Vehicle
+from .models import Media, Room, Vehicle, Reservation
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from accounts.serializers import UserSerializer
@@ -102,4 +102,37 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         )
         read_only_fields = ('vehicle_id', 'images', 'owner')
 
-# class ReservationSerializer(serializers.ModelSerializer):
+
+class ReservationSerializer(serializers.ModelSerializer):
+    service_id = serializers.IntegerField(write_only=True)
+    service_type = serializers.ChoiceField(choices=['vehicle', 'room'], write_only=True)
+    start_date = serializers.DateTimeField()
+    end_date = serializers.DateTimeField()
+    price = serializers.IntegerField()
+    total = serializers.IntegerField()
+
+    class Meta:
+        # depth = 1
+        model = Reservation
+        fields = (
+            'reservation_id',
+            'service_id',
+            'service_type',
+            'start_date',
+            'end_date',
+            'price',
+            'total'
+        )
+        extra_kwargs = {'reservation_id': {'read_only': True}}
+
+    def validate(self, data):
+        """
+        Custom Validations
+        """
+        if data['start_date'] > data['end_date']:
+            raise serializers.ValidationError({"end_date": "finish must occur after start"})
+
+        Model = Vehicle if data['service_type'] == 'vehicle' else Room
+        if not Model.objects.filter(pk=data['service_id']).exists():
+            raise serializers.ValidationError({"service_id": f"{Model._meta.model.__name__} with id: {data['service_id']} doesn't exists"})
+        return data

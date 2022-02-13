@@ -53,6 +53,8 @@
 - [x] Add reservations feature for the rooms and vehicle
 
   - Added Model for the Reservation
+  - Added Serializer,Url and Viewset for Reservation
+  - Added create method for the Reservation
 
 - [x] Deployed the App
 
@@ -64,6 +66,7 @@
   - Refactored serializers for the images
   - Refactored user serializer
   - Added each model id as ready only field in serializer
+  - Added single model route for vehicle and room
 
 - [x] Added factory models
   - Installed factory boy and faker
