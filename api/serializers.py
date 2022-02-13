@@ -8,10 +8,12 @@ class MediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = (
+            'media_id',
             'file_name',
             'url',
-            'mime_type'
+            'mime_type',
         )
+        extra_kwargs = {'media_id': {'read_only': True}}
 
 
 class MediaObjectRelatedField(serializers.RelatedField):
@@ -49,6 +51,7 @@ class RoomSerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
         model = Room
         fields = (
+            'room_id',
             'title',
             'price',
             'description',
@@ -64,7 +67,7 @@ class RoomSerializer(serializers.HyperlinkedModelSerializer):
             'owner',
             'image'
         )
-        read_only_fields = ('images', 'owner')
+        read_only_fields = ('room_id', 'images', 'owner')
 
 
 class VehicleSerializer(serializers.HyperlinkedModelSerializer):
@@ -85,6 +88,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
         model = Vehicle
         fields = (
+            'vehicle_id',
             'name',
             'price',
             'description',
@@ -96,6 +100,6 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
             'owner',
             'image'
         )
-        read_only_fields = ('images', 'owner')
+        read_only_fields = ('vehicle_id', 'images', 'owner')
 
 # class ReservationSerializer(serializers.ModelSerializer):
