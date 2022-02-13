@@ -112,7 +112,7 @@ class ReservationSerializer(serializers.ModelSerializer):
     total = serializers.IntegerField()
 
     class Meta:
-        # depth = 1
+        depth = 1
         model = Reservation
         fields = (
             'reservation_id',

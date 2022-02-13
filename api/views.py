@@ -94,20 +94,19 @@ class VehicleViewSet(viewsets.ViewSet):
 
 
 class ReservationViewSet(viewsets.ViewSet):
-    # permission_classes = [IsAuthenticated]
-    serializer_class = ReservationSerializer()
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReservationSerializer
 
     def list(self, request):
-        # queryset = Reservation.objects.filter(user=request.user)
-        queryset = Reservation.objects.all()
-        print(queryset)
-        serializer = ReservationSerializer(queryset)
+        queryset = Reservation.objects.filter(user=request.user)
+        serializer = ReservationSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request):
         serializer = ReservationSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.validated_data
+            data['user'] = request.user.email
             publish(method="create_reservation", body=data)
             return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},

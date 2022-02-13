@@ -55,6 +55,9 @@
   - Added Model for the Reservation
   - Added Serializer,Url and Viewset for Reservation
   - Added create method for the Reservation
+  - Added custom validators for Reservation
+  - Added methods for listing Reservations
+  - Added methods for creating Reservations
 
 - [x] Deployed the App
 
