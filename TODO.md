@@ -63,6 +63,7 @@
   - Deployed to heroku
   - Refactored serializers for the images
   - Refactored user serializer
+  - Added each model id as ready only field in serializer
 
 - [x] Added factory models
   - Installed factory boy and faker
