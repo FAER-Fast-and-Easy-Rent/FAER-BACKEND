@@ -2,12 +2,13 @@
 from .producer import publish
 from datetime import datetime
 from .utils import write_to_tmp  # , serializeImg
-from .models import Room, Vehicle
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from .models import Room, Vehicle, Reservation
 from rest_framework.permissions import BasePermission
-from .serializers import RoomSerializer, VehicleSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
+from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer
 
 
 class IsAuthenticatedOrReadOnly(BasePermission):
@@ -49,7 +50,13 @@ class RoomViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'mesage': 'success'})
+    def retrieve(self, request, pk=None):
+        queryset = Room.objects.filter(pk=pk)
+        if not queryset:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = RoomSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class VehicleViewSet(viewsets.ViewSet):
@@ -77,4 +84,32 @@ class VehicleViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'mesage': 'success'})
+    def retrieve(self, request, pk=None):
+        queryset = Vehicle.objects.filter(pk=pk)
+        if not queryset:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = VehicleSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ReservationViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReservationSerializer
+
+    def list(self, request):
+        queryset = Reservation.objects.filter(user=request.user)
+        serializer = ReservationSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = ReservationSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            data['user'] = request.user.email
+            publish(method="create_reservation", body=data)
+            return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
+                            'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},
+                            status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

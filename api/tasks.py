@@ -1,7 +1,7 @@
 from django.db import transaction
 from .utils import upload_to_storage
-from api.models import Room, Media, Vehicle
 from django.contrib.auth import get_user_model
+from api.models import Room, Media, Vehicle, Reservation
 
 User = get_user_model()
 
@@ -38,5 +38,20 @@ def create_vehicle(data):
                                  file_name=data['image'], url=data['image'], mime_type='image/png')
 
             print("Vehicle created successfuly.")
+    else:
+        print('User Not Found. Data not created')
+
+
+def create_reservation(data):
+    if User.objects.filter(email=data['user']).exists():
+        with transaction.atomic():
+            Model = Vehicle if data['service_type'] == 'vehicle' else Room
+
+            user = User.objects.get(email=data['user'])
+            service_model = Model.objects.get(pk=data['service_id'])
+            Reservation.objects.create(content_object=service_model, start_date=data['start_date'],
+                                       price=data['price'], total=data['total'], end_date=data['end_date'], user=user)
+
+            print("Reservation created successfuly.")
     else:
         print('User Not Found. Data not created')

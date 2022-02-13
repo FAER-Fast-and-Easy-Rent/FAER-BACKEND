@@ -53,6 +53,12 @@
 - [x] Add reservations feature for the rooms and vehicle
 
   - Added Model for the Reservation
+  - Added Serializer,Url and Viewset for Reservation
+  - Added create method for the Reservation
+  - Added custom validators for Reservation
+  - Added methods for listing Reservations
+  - Added methods for creating Reservations
+  - Added tests for the Reservations
 
 - [x] Deployed the App
 
@@ -63,6 +69,8 @@
   - Deployed to heroku
   - Refactored serializers for the images
   - Refactored user serializer
+  - Added each model id as ready only field in serializer
+  - Added single model route for vehicle and room
 
 - [x] Added factory models
   - Installed factory boy and faker

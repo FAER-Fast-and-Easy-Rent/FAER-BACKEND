@@ -37,7 +37,7 @@ class Reservation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.media_id)
+        return str(self.reservation_id)
 
 
 class Room(models.Model):

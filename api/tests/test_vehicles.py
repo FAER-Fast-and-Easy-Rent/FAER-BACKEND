@@ -44,3 +44,13 @@ class VehiclesTests(TestCase):
         # Check required fields
         response = self.client.post('/api/v1/vehicles/', **header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_route_for_vehicle(self):
+        data = self.data
+        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        vehicle = Vehicle.objects.create(name=data['name'], price=data['price'], description=data['description'],
+                                         capacity=data['capacity'], vehicle_type=data['vehicle_type'],
+                                         brand=data['brand'], model=data['model'], owner=user)
+
+        response = self.client.get(f'/api/v1/vehicles/{vehicle.pk}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
