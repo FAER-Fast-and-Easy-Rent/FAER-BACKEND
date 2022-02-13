@@ -58,6 +58,7 @@
   - Added custom validators for Reservation
   - Added methods for listing Reservations
   - Added methods for creating Reservations
+  - Added tests for the Reservations
 
 - [x] Deployed the App
 
