@@ -1,6 +1,6 @@
 from .models import Media, Room, Vehicle, Reservation
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+# from rest_framework.validators import UniqueValidator
 from accounts.serializers import UserSerializer
 
 
@@ -31,7 +31,7 @@ class MediaObjectRelatedField(serializers.RelatedField):
 
 
 class RoomSerializer(serializers.HyperlinkedModelSerializer):
-    title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Room.objects.all())])
+    title = serializers.CharField(max_length=255)  # , validators=[UniqueValidator(queryset=Room.objects.all())])
     price = serializers.IntegerField()
     description = serializers.CharField(max_length=500)
     home_type = serializers.CharField()

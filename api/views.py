@@ -43,7 +43,7 @@ class RoomViewSet(viewsets.ViewSet):
             data['image'] = write_to_tmp(file=data['image'])
             data['user'] = request.user.email
             publish(method="create_room", body=data)
-
+            data.pop('image')
             return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},
                             status=status.HTTP_201_CREATED)
@@ -77,7 +77,7 @@ class VehicleViewSet(viewsets.ViewSet):
             data['user'] = request.user.email
             publish(method="create_vehicle", body=data)
             # publish(method="save_image", body=str(request.FILES['images'].read()))
-
+            data.pop('image')
             return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_201_CREATED,
                             'timestamp': datetime.now(), 'url': request.get_full_path(), 'data': data},
                             status=status.HTTP_201_CREATED)

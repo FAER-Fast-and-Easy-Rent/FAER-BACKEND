@@ -15,6 +15,7 @@ import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1c+e!_2pzo2c8a=l5yl*lfsulkcpw-qbqe07sfj*u3!=2q=41w')
 
-DEBUG = os.environ.get('DEBUG', default=True)
+DEBUG = os.environ.get('DEBUG', default=False)
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = []
@@ -94,6 +95,7 @@ DATABASES['default'].update(db_from_env)
 
 AUTH_USER_MODEL = 'accounts.User'
 
+FIREBASE_CRED = os.environ.get('FIREBASE_CRED', None)
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
