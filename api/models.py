@@ -56,7 +56,7 @@ class Room(models.Model):
     # )
     room_id = models.AutoField(primary_key=True)
     price = models.IntegerField()
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255)
     description = models.TextField(max_length=500, blank=True, default='')
 
     home_type = models.CharField(max_length=100)  # ,choices=home_types)
