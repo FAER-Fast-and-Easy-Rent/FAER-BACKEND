@@ -78,3 +78,10 @@
   - Created command to seed the factory
   - Scaped the internet and populated db with some data
   - Added functionality to load data to db
+
+- [x] Added Firebase Storage Feature
+  - Added is_renter field visibility in user serializer
+  - Removed unique key from room title.
+  - Installed firebase storage and other dependencies
+  - Added functionality to encode image
+  - Added functionality to upload to storage and reflect change in the database

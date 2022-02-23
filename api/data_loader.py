@@ -22,6 +22,7 @@ def seed_users(count: int = 30):
         print("Creating a Test and Admin User")
         User.objects.create_user(email='test@email.com', name='testuser', password='password')
         User.objects.create_superuser(email='admin@admin.com', name='Admin user', password='admin')
+        # user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
         print("Admin User created.")
     for _ in tqdm(range(count), desc="Seeding User Data :"):
         User.objects.create_user(email=fake.email(), name=fake.name(), password=fake.password())
