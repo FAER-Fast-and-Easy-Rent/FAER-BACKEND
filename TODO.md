@@ -89,6 +89,7 @@
   - Added functionality to upload to storage and reflect change in the database
 
 - [x] Minor Updates
+
   - Removed debug option for the Firebase Storage upload
   - Updated Access token time to 4hrs
   - Added viewset for the services route
@@ -97,7 +98,7 @@
   - Added permission for renter to the vehicles route
   - Updated test cases for renter
 
-- [X] Mail Support
+- [x] Mail Support
   - Added mailtrap as default mail
   - Added send email function to utils
   - Added send email option in tasks
