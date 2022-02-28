@@ -4,8 +4,10 @@ import json
 import base64
 import numpy as np
 import firebase_admin
+from django.conf import settings
 from firebase_admin import storage
-# from django.conf import settings
+from django.core.mail import send_mail
+
 
 credentials = {
     "type": "service_account",
@@ -86,3 +88,11 @@ def upload_to_firebase(file):
 
     print("File has been uploaded to : ", blob.public_url)
     return blob.public_url
+
+
+def send_email(sub, msg, to):
+    res = send_mail(sub, msg, settings.EMAIL_HOST_USER, [to])
+    if(res == 1):
+        print("Mail Sent Successfuly")
+    else:
+        print("Mail could not sent")
