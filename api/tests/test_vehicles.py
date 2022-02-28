@@ -24,7 +24,7 @@ class VehiclesTests(TestCase):
         self.assertEqual(response.content, b'[]')
 
     def test_create_and_retrieve_vehicle_data(self):
-        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        user = User.objects.create_renter(email='normal@user.com', name='normal', password='password@123')
         response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
         header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
         response = self.client.post('/api/v1/vehicles/', self.data, **header)
@@ -47,7 +47,7 @@ class VehiclesTests(TestCase):
 
     def test_retrieve_route_for_vehicle(self):
         data = self.data
-        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        user = User.objects.create_renter(email='normal@user.com', name='normal', password='password@123')
         vehicle = Vehicle.objects.create(name=data['name'], price=data['price'], description=data['description'],
                                          capacity=data['capacity'], vehicle_type=data['vehicle_type'],
                                          brand=data['brand'], model=data['model'], owner=user)

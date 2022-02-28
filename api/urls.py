@@ -16,4 +16,5 @@ urlpatterns = [
     path('vehicles/', views.VehicleViewSet.as_view({'get': 'list', 'post': 'create'}), name='vehicles'),
     path('vehicles/<int:pk>/', views.VehicleViewSet.as_view({'get': 'retrieve'}), name='get_vehicle'),
     path('reservations/', views.ReservationViewSet.as_view({'get': 'list', 'post': 'create'}), name='reservations'),
+    path('services/', views.ServicesViewSet.as_view({'get': 'list'}), name='services'),
 ]

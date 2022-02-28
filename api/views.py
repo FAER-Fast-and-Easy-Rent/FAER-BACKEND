@@ -11,7 +11,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer
 
 
-class IsAuthenticatedOrReadOnly(BasePermission):
+class IsAuthenticatedAndRenterOrReadOnly(BasePermission):
 
     """
     The request is authenticated as a user, or is a read-only request.
@@ -21,7 +21,20 @@ class IsAuthenticatedOrReadOnly(BasePermission):
         SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
         if (request.method in SAFE_METHODS
             or request.user
-                and request.user.is_authenticated):
+                and request.user.is_authenticated and request.user.is_renter):
+            return True
+        return False
+
+
+class IsRenter(BasePermission):
+
+    """
+    The request is authenticated as a user, or is a read-only request.
+    """
+
+    def has_permission(self, request, view):
+        if (request.user and request.user.is_authenticated
+                and request.user.is_renter):
             return True
         return False
 
@@ -29,7 +42,7 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 class RoomViewSet(viewsets.ViewSet):
     serializer_class = RoomSerializer
     parser_classes = (FormParser, MultiPartParser)
-    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
         queryset = Room.objects.all()
@@ -62,7 +75,7 @@ class RoomViewSet(viewsets.ViewSet):
 class VehicleViewSet(viewsets.ViewSet):
     serializer_class = VehicleSerializer
     parser_classes = (FormParser, MultiPartParser)
-    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
         queryset = Vehicle.objects.all()
@@ -113,3 +126,16 @@ class ReservationViewSet(viewsets.ViewSet):
                             status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ServicesViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated, IsRenter]
+
+    def list(self, request):
+        queryset_room = Room.objects.filter(owner=request.user)
+        serializer_room = RoomSerializer(queryset_room, many=True)
+        queryset_vehicle = Vehicle.objects.filter(owner=request.user)
+        serializer_vehicle = VehicleSerializer(queryset_vehicle, many=True)
+        return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
+                         'timestamp': datetime.now(), 'url': request.get_full_path(),
+                         'rooms': serializer_room.data, 'vehicles': serializer_vehicle.data})

@@ -26,7 +26,7 @@ class RoomsTests(TestCase):
         self.assertEqual(response.content, b'[]')
 
     def test_create_and_retrieve_room_data(self):
-        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        user = User.objects.create_renter(email='normal@user.com', name='normal', password='password@123')
         response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
         header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
         response = self.client.post('/api/v1/rooms/', self.data, **header)
@@ -50,7 +50,7 @@ class RoomsTests(TestCase):
 
     def test_retrieve_route_for_room(self):
         data = self.data
-        user = User.objects.create_user(email='normal@user.com', name='normal', password='password@123')
+        user = User.objects.create_renter(email='normal@user.com', name='normal', password='password@123')
         room = Room.objects.create(price=data['price'], title=data['title'],
                                    description=data['description'], home_type=data['home_type'],
                                    room_type=data['room_type'], address=data['address'], owner=user)
