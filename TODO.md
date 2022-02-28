@@ -73,6 +73,7 @@
   - Added single model route for vehicle and room
 
 - [x] Added factory models
+
   - Installed factory boy and faker
   - Created factory for user, room, vehicle and media
   - Created command to seed the factory
@@ -80,8 +81,18 @@
   - Added functionality to load data to db
 
 - [x] Added Firebase Storage Feature
+
   - Added is_renter field visibility in user serializer
   - Removed unique key from room title.
   - Installed firebase storage and other dependencies
   - Added functionality to encode image
   - Added functionality to upload to storage and reflect change in the database
+
+- [x] Minor Updates
+  - Removed debug option for the Firebase Storage upload
+  - Updated Access token time to 4hrs
+  - Added viewset for the services route
+  - Added permission for renter to the services route
+  - Added permission for renter to the rooms route
+  - Added permission for renter to the vehicles route
+  - Updated test cases for renter

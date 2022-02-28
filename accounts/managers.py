@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_rentor(self, email, name, password=None):
+    def create_renter(self, email, name, password=None):
         """
         Creates and saves a rentor with the given email, name and password.
         """
