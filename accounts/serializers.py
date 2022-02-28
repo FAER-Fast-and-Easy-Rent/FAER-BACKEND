@@ -30,3 +30,10 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=validated_data['email'], name=validated_data['name'], password=validated_data['password'])
         return user
+
+
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('name', 'email')
+        extra_kwargs = {'name': {'read_only': True}, 'email': {'read_only': True}}

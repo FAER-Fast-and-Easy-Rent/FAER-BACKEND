@@ -1,7 +1,7 @@
 from .models import Media, Room, Vehicle, Reservation
 from rest_framework import serializers
 # from rest_framework.validators import UniqueValidator
-from accounts.serializers import UserSerializer
+from accounts.serializers import BasicUserSerializer
 
 
 class MediaSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class RoomSerializer(serializers.HyperlinkedModelSerializer):
     image = serializers.ImageField(max_length=None, write_only=True)
 
     images = MediaObjectRelatedField(read_only=True, many=True)
-    owner = UserSerializer(read_only=True)
+    owner = BasicUserSerializer(read_only=True)
 
     class Meta:
         depth = 1
@@ -82,7 +82,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     image = serializers.ImageField(max_length=None, write_only=True)
 
     images = MediaObjectRelatedField(read_only=True, many=True)
-    owner = UserSerializer(read_only=True)
+    owner = BasicUserSerializer(read_only=True)
 
     class Meta:
         depth = 1
