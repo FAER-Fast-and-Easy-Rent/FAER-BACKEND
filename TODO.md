@@ -96,3 +96,8 @@
   - Added permission for renter to the rooms route
   - Added permission for renter to the vehicles route
   - Updated test cases for renter
+
+- [X] Mail Support
+  - Added mailtrap as default mail
+  - Added send email function to utils
+  - Added send email option in tasks
