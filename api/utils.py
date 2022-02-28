@@ -5,7 +5,7 @@ import base64
 import numpy as np
 import firebase_admin
 from firebase_admin import storage
-from django.conf import settings
+# from django.conf import settings
 
 credentials = {
     "type": "service_account",
@@ -72,10 +72,8 @@ def upload_to_storage(image):
 
 def get_media_url(image):
 
-    if not settings.DEBUG:
-        media_url = upload_to_storage(image)
-        return media_url if media_url else default_img_url
-    return default_img_url
+    media_url = upload_to_storage(image)
+    return media_url if media_url else default_img_url
 
 
 def upload_to_firebase(file):
