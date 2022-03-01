@@ -4,8 +4,10 @@ import json
 import base64
 import numpy as np
 import firebase_admin
+from django.conf import settings
 from firebase_admin import storage
-# from django.conf import settings
+from django.template import loader
+from django.core.mail import EmailMultiAlternatives
 
 credentials = {
     "type": "service_account",
@@ -86,3 +88,18 @@ def upload_to_firebase(file):
 
     print("File has been uploaded to : ", blob.public_url)
     return blob.public_url
+
+
+def send_email(sub, user, owner, product, to):
+    template = loader.get_template("reservation_email.txt")
+    context = {
+        "renter": owner,
+        "user": user,
+        "product": product
+    }
+    message = template.render(context)
+    msg = EmailMultiAlternatives(subject=sub, from_email=settings.EMAIL_HOST_EMAIL,
+                                 to=[to], body=message)
+    msg.content_subtype = "html"
+    msg.send()
+    print("Mail Sent Successfuly")
