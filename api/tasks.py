@@ -14,7 +14,9 @@ def create_room(data):
 
             room = Room.objects.create(price=data['price'], title=data['title'], description=data['description'],
                                        home_type=data['home_type'], room_type=data['room_type'],
-                                       address=data['address'], owner=user)
+                                       total_occupancy=data['total_occupancy'], total_bedrooms=data['total_bedrooms'],
+                                       total_bathrooms=data['total_bathrooms'], is_furnished=data['is_furnished'],
+                                       has_kitchen=data['has_kitchen'], address=data['address'], owner=user)
             media_url = get_media_url(data['image'])
             Media.objects.create(content_object=room,
                                  file_name=data['image']['file_name'], url=media_url, mime_type='image/png')
