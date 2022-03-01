@@ -103,6 +103,26 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('vehicle_id', 'images', 'owner')
 
 
+class ReservationObjectRelatedField(serializers.RelatedField):
+    """
+    A custom field to use for the `tagged_object` generic relationship.
+    """
+
+    def to_representation(self, value):
+        """
+        Serialize bookmark instances using a bookmark serializer,
+        and note instances using a note serializer.
+        """
+        if isinstance(value, Room):
+            serializer = RoomSerializer(value)
+        elif isinstance(value, Vehicle):
+            serializer = VehicleSerializer(value)
+        else:
+            raise Exception('Unexpected type of tagged object')
+
+        return serializer.data
+
+
 class ReservationSerializer(serializers.ModelSerializer):
     service_id = serializers.IntegerField(write_only=True)
     service_type = serializers.ChoiceField(choices=['vehicle', 'room'], write_only=True)
@@ -110,6 +130,8 @@ class ReservationSerializer(serializers.ModelSerializer):
     end_date = serializers.DateTimeField()
     price = serializers.IntegerField()
     total = serializers.IntegerField()
+
+    content_object = ReservationObjectRelatedField(read_only=True)
 
     class Meta:
         depth = 1
@@ -121,9 +143,11 @@ class ReservationSerializer(serializers.ModelSerializer):
             'start_date',
             'end_date',
             'price',
-            'total'
+            'total',
+            'content_object',
+            'content_type'
         )
-        extra_kwargs = {'reservation_id': {'read_only': True}}
+        extra_kwargs = {'reservation_id': {'read_only': True}, 'content_type': {'read_only': True}}
 
     def validate(self, data):
         """
