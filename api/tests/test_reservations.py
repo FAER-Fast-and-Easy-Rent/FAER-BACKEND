@@ -34,7 +34,7 @@ class ReservationsTests(TestCase):
         response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
         header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
 
-        call_command('seed', verbosity=3)
+        call_command('seed', verbosity=3, seed=True)
 
         # test using room as service
         data = {'service_id': 1, 'service_type': 'room', 'start_date': '2022-02-01', 'end_date': '2022-02-04', 'price': 145, 'total': 1450}
