@@ -102,3 +102,4 @@
   - Added mailtrap as default mail
   - Added send email function to utils
   - Added send email option in tasks
+  - Added a template to send reservation mail

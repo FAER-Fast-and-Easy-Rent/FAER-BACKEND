@@ -177,6 +177,7 @@ CSRF_TRUSTED_ORIGINS = ['https://3000-faerfastandeasy-faerui-q12z5e3mve7.ws-us28
 # Email Settinng : Deafult(Mailtrap)
 EMAIL_HOST = os.environ.get('EMAIL_HOST', default='smtp.mailtrap.io')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST', default='6f2d67aa5b4da4')
+EMAIL_HOST_EMAIL = os.environ.get('EMAIL_HOST_EMAIL', default='noreply@faer.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', default='d54e1741e39efc')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', default='2525')
 EMAIL_USE_TLS = True
