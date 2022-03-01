@@ -97,6 +97,7 @@
   - Added permission for renter to the rooms route
   - Added permission for renter to the vehicles route
   - Updated test cases for renter
+  - Added Content type and object to reservation serializer
 
 - [x] Mail Support
   - Added mailtrap as default mail
