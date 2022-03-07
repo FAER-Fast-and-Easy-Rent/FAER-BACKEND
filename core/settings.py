@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1c+e!_2pzo2c8a=l5yl*lfsulkcpw-qbqe07sfj*u3!=2q=41w')
 
-DEBUG = os.environ.get('DEBUG', default=True)
+# DEBUG = os.environ.get('DEBUG', default=False)
+DEBUG = False
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = []
@@ -90,7 +91,7 @@ DATABASES = {
     }
 }
 DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 AUTH_USER_MODEL = 'accounts.User'

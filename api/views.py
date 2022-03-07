@@ -45,7 +45,7 @@ class RoomViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Room.objects.all()
+        queryset = Room.objects.all().reverse()
         serializer = RoomSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -78,7 +78,7 @@ class VehicleViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Vehicle.objects.all()
+        queryset = Vehicle.objects.all().reverse()
         serializer = VehicleSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -111,7 +111,7 @@ class ReservationViewSet(viewsets.ViewSet):
     serializer_class = ReservationSerializer
 
     def list(self, request):
-        queryset = Reservation.objects.filter(user=request.user)
+        queryset = Reservation.objects.filter(user=request.user).reverse()
         serializer = ReservationSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -132,10 +132,21 @@ class ServicesViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated, IsRenter]
 
     def list(self, request):
-        queryset_room = Room.objects.filter(owner=request.user)
+        queryset_room = Room.objects.filter(owner=request.user).reverse()
         serializer_room = RoomSerializer(queryset_room, many=True)
         queryset_vehicle = Vehicle.objects.filter(owner=request.user)
         serializer_vehicle = VehicleSerializer(queryset_vehicle, many=True)
         return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
                          'timestamp': datetime.now(), 'url': request.get_full_path(),
                          'rooms': serializer_room.data, 'vehicles': serializer_vehicle.data})
+
+
+class HostReservationViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated, IsRenter]
+
+    def list(self, request):
+        queryset = Reservation.objects.filter(res__owner=request.user)
+        serializer = ReservationSerializer(queryset, many=True)
+        return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
+                         'timestamp': datetime.now(), 'url': request.get_full_path(),
+                         'data': serializer.data})
