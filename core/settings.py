@@ -172,7 +172,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-CSRF_TRUSTED_ORIGINS = ['https://*.*.gitpod.io', 'https://faer-backend.herokuapp.com', 'https://faer.vercel.app', 'http://127.0.0.1:8000','https://8000-astandasyent-mackerel-rxcs0105m2l.ws-us34.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://*.*.gitpod.io', 'https://faer-backend.herokuapp.com', 'https://faer.vercel.app', 'http://127.0.0.1:8000', 'https://8000-astandasyent-mackerel-rxcs0105m2l.ws-us34.gitpod.io']
 # CSRF_TRUSTED_ORIGINS = ['*']
 
 # Email Settinng : Deafult(Mailtrap)
