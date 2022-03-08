@@ -16,6 +16,7 @@ Including another URLconf
 from . import views
 from django.urls import path
 from django.contrib import admin
+from django.conf import settings
 from django.urls.conf import include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -24,5 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
 ]
-
-urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

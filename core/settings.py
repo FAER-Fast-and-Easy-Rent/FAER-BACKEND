@@ -26,11 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1c+e!_2pzo2c8a=l5yl*lfsulkcpw-qbqe07sfj*u3!=2q=41w')
 
-# DEBUG = os.environ.get('DEBUG', default=False)
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', default=True)
 # SECURITY WARNING: don't run with debug turned on in production!
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -51,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,7 +89,7 @@ DATABASES = {
     }
 }
 DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500)
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -136,6 +134,8 @@ KAFKA_BROKER_URL = ''
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -172,8 +172,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-# CSRF_TRUSTED_ORIGINS = ['https://*.*.gitpod.io']
-CSRF_TRUSTED_ORIGINS = ['https://3000-faerfastandeasy-faerui-q12z5e3mve7.ws-us28.gitpod.io', 'https://faer.vercel.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.*.gitpod.io', 'https://faer-backend.herokuapp.com', 'https://faer.vercel.app', 'http://127.0.0.1:8000','https://8000-astandasyent-mackerel-rxcs0105m2l.ws-us34.gitpod.io']
+# CSRF_TRUSTED_ORIGINS = ['*']
 
 # Email Settinng : Deafult(Mailtrap)
 EMAIL_HOST = os.environ.get('EMAIL_HOST', default='smtp.mailtrap.io')
