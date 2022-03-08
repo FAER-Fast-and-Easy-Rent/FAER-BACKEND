@@ -18,8 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('name', 'email', 'is_renter', 'password', 're_password')
-        extra_kwargs = {'password': {'write_only': True}, 're_password': {'write_only': True}, 'is_renter': {'read_only': True}}
+        fields = ('name', 'email', 'is_renter', 'phone', 'address', 'password', 're_password')
+        extra_kwargs = {'password': {'write_only': True}, 're_password': {'write_only': True}, 'is_renter': {'read_only': True},
+                        'phone': {'read_only': True}, 'address': {'read_only': True}}
 
     def validate(self, attrs):
         if attrs['password'] != attrs['re_password']:
