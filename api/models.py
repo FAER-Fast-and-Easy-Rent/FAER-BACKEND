@@ -89,7 +89,7 @@ class Room(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     images = GenericRelation(Media)
-    reservations = GenericRelation(Reservation, related_query_name="res")
+    reservations = GenericRelation(Reservation, related_query_name="res_room")
     owner = models.ForeignKey(User, related_name='rooms', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -121,7 +121,7 @@ class Vehicle(models.Model):
     plate_number = models.CharField(max_length=100, null=True, blank=True)
 
     images = GenericRelation(Media)
-    reservations = GenericRelation(Reservation, related_query_name="res")
+    reservations = GenericRelation(Reservation, related_query_name="res_vehicle")
     owner = models.ForeignKey(User, related_name='vehicles', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

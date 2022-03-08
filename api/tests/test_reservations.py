@@ -64,3 +64,29 @@ class ReservationsTests(TestCase):
         response = self.client.post('/api/v1/reservations/', data, **header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content, b'{"service_id":["Room with id: 100 doesn\'t exists"]}')
+
+    def test_host_reservation_route(self):
+        data = {"title": "Room1", "price": 5000, "description": "This is home.", "home_type": "ROOM",
+                "room_type": "Single", "total_occupancy": 4, "total_bedrooms": 4,
+                "total_bathrooms": 4, "is_furnished": True, "has_kitchen": True,
+                "address": "Kathmandu"}
+        r_user = User.objects.create_renter(email='normal@user.com', name='normal', password='password@123')
+        room = Room.objects.create(price=data['price'], title=data['title'],
+                                   description=data['description'], home_type=data['home_type'],
+                                   room_type=data['room_type'], address=data['address'], owner=r_user)
+
+        user = User.objects.create_user(email='normalr@user.com', name='normal', password='password@123')
+        response = self.client.post('/api/v1/token/', {'email': user.email, 'password': 'password@123'})
+        header = {'HTTP_AUTHORIZATION': f'Bearer {response.data["access"]}'}
+
+        # test using room as service
+        data = {'service_id': room.room_id, 'service_type': 'room', 'start_date': '2022-02-01', 'end_date': '2022-02-04', 'price': 145, 'total': 1450}
+        response = self.client.post('/api/v1/reservations/', data, **header)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        response_c = self.client.post('/api/v1/token/', {'email': r_user.email, 'password': 'password@123'})
+        header_c = {'HTTP_AUTHORIZATION': f'Bearer {response_c.data["access"]}'}
+
+        response = self.client.get('/api/v1/host/reservations/', **header_c)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        print(response.content)

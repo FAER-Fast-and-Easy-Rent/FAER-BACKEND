@@ -8,7 +8,7 @@ from .models import Room, Vehicle, Reservation
 from rest_framework.permissions import BasePermission
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
-from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer
+from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer, HostReservationSerializer
 
 
 class IsAuthenticatedAndRenterOrReadOnly(BasePermission):
@@ -145,8 +145,10 @@ class HostReservationViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated, IsRenter]
 
     def list(self, request):
-        queryset = Reservation.objects.filter(res__owner=request.user)
-        serializer = ReservationSerializer(queryset, many=True)
+        queryset_room = Reservation.objects.filter(res_room__owner=request.user).reverse()
+        serializer_room = HostReservationSerializer(queryset_room, many=True)
+        queryset_vehicle = Reservation.objects.filter(res_vehicle__owner=request.user).reverse()
+        serializer_vehicle = HostReservationSerializer(queryset_vehicle, many=True)
         return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
                          'timestamp': datetime.now(), 'url': request.get_full_path(),
-                         'data': serializer.data})
+                         'rooms': serializer_room.data, 'vehicles': serializer_vehicle.data})
