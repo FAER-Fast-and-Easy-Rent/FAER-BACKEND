@@ -89,4 +89,3 @@ class ReservationsTests(TestCase):
 
         response = self.client.get('/api/v1/host/reservations/', **header_c)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.content)

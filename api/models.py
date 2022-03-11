@@ -29,6 +29,7 @@ class Reservation(models.Model):
     end_date = models.DateTimeField()
     price = models.IntegerField()
     total = models.IntegerField()
+    active = models.BooleanField(default=True)
 
     # status
     content_type = models.ForeignKey(ContentType, related_name='reservations', on_delete=models.CASCADE)

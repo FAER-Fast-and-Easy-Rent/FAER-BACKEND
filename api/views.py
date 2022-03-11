@@ -1,6 +1,7 @@
 # from django.shortcuts import render
 from .producer import publish
 from datetime import datetime
+from django.db.models import Q
 from .utils import write_to_tmp  # , serializeImg
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -45,7 +46,7 @@ class RoomViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Room.objects.all().reverse()
+        queryset = Room.objects.filter(~Q(pk__in=Reservation.objects.filter(active=True, content_type__model='room').values_list('res_room__pk', flat=True))).reverse()
         serializer = RoomSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -78,7 +79,7 @@ class VehicleViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Vehicle.objects.all().reverse()
+        queryset = Vehicle.objects.filter(~Q(pk__in=Reservation.objects.filter(active=True, content_type__model='vehicle').values_list('res_vehicle__pk', flat=True))).reverse()
         serializer = VehicleSerializer(queryset, many=True)
         return Response(serializer.data)
 
