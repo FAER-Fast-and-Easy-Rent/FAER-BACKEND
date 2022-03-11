@@ -470,6 +470,12 @@
             You have a reservation from <br/>
             Name : {{user.name}}<br/>
             Email : {{user.email}} <br/>
+            {% if user.phone %}
+            Phone : {{user.phone}} <br/>
+            {% endif %}
+            {% if user.address %}
+            Address : {{user.address}} <br/>
+            {% endif %}
             for Product Type : {{product.type}} with id :{{ product.id }}<br/>
             created at: {{product.date}}
 

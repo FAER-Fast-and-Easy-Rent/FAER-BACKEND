@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import permissions, status
-from .serializers import UserSerializer
+from rest_framework import viewsets, permissions, status
+from .serializers import UserSerializer, UpdateUserSerializer
 from rest_framework import generics
 
 User = get_user_model()
@@ -52,3 +52,17 @@ class RetrieveUserView(APIView):
             return Response({'user': user.data}, status=status.HTTP_200_OK)
         except Exception:
             return Response({'error': MESSAGE}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class UpdateUserView(viewsets.ViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+
+    def update(self, request):
+        # try:
+        serializer = self.serializer_class(request.user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        user_ser = UserSerializer(request.user)
+        return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
+                         'url': request.get_full_path(), 'data': user_ser.data}, status=status.HTTP_200_OK)

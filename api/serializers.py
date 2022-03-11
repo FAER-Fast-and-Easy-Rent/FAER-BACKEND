@@ -160,3 +160,28 @@ class ReservationSerializer(serializers.ModelSerializer):
         if not Model.objects.filter(pk=data['service_id']).exists():
             raise serializers.ValidationError({"service_id": f"{Model._meta.model.__name__} with id: {data['service_id']} doesn't exists"})
         return data
+
+
+class HostReservationSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateTimeField(read_only=True)
+    end_date = serializers.DateTimeField(read_only=True)
+    price = serializers.IntegerField(read_only=True)
+    total = serializers.IntegerField(read_only=True)
+
+    user = BasicUserSerializer(read_only=True)
+    content_object = ReservationObjectRelatedField(read_only=True)
+
+    class Meta:
+        depth = 1
+        model = Reservation
+        fields = (
+            'reservation_id',
+            'start_date',
+            'end_date',
+            'price',
+            'total',
+            'user',
+            'content_object',
+            'content_type'
+        )
+        extra_kwargs = {'reservation_id': {'read_only': True}, 'content_type': {'read_only': True}}

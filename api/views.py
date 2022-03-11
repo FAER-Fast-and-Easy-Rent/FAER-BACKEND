@@ -1,6 +1,7 @@
 # from django.shortcuts import render
 from .producer import publish
 from datetime import datetime
+from django.db.models import Q
 from .utils import write_to_tmp  # , serializeImg
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -8,7 +9,7 @@ from .models import Room, Vehicle, Reservation
 from rest_framework.permissions import BasePermission
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
-from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer
+from .serializers import RoomSerializer, VehicleSerializer, ReservationSerializer, HostReservationSerializer
 
 
 class IsAuthenticatedAndRenterOrReadOnly(BasePermission):
@@ -45,7 +46,7 @@ class RoomViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Room.objects.all()
+        queryset = Room.objects.filter(~Q(pk__in=Reservation.objects.filter(active=True, content_type__model='room').values_list('res_room__pk', flat=True))).reverse()
         serializer = RoomSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -78,7 +79,7 @@ class VehicleViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticatedAndRenterOrReadOnly, ]
 
     def list(self, request):
-        queryset = Vehicle.objects.all()
+        queryset = Vehicle.objects.filter(~Q(pk__in=Reservation.objects.filter(active=True, content_type__model='vehicle').values_list('res_vehicle__pk', flat=True))).reverse()
         serializer = VehicleSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -111,7 +112,7 @@ class ReservationViewSet(viewsets.ViewSet):
     serializer_class = ReservationSerializer
 
     def list(self, request):
-        queryset = Reservation.objects.filter(user=request.user)
+        queryset = Reservation.objects.filter(user=request.user).reverse()
         serializer = ReservationSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -132,10 +133,23 @@ class ServicesViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated, IsRenter]
 
     def list(self, request):
-        queryset_room = Room.objects.filter(owner=request.user)
+        queryset_room = Room.objects.filter(owner=request.user).reverse()
         serializer_room = RoomSerializer(queryset_room, many=True)
         queryset_vehicle = Vehicle.objects.filter(owner=request.user)
         serializer_vehicle = VehicleSerializer(queryset_vehicle, many=True)
+        return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
+                         'timestamp': datetime.now(), 'url': request.get_full_path(),
+                         'rooms': serializer_room.data, 'vehicles': serializer_vehicle.data})
+
+
+class HostReservationViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated, IsRenter]
+
+    def list(self, request):
+        queryset_room = Reservation.objects.filter(res_room__owner=request.user).reverse()
+        serializer_room = HostReservationSerializer(queryset_room, many=True)
+        queryset_vehicle = Reservation.objects.filter(res_vehicle__owner=request.user).reverse()
+        serializer_vehicle = HostReservationSerializer(queryset_vehicle, many=True)
         return Response({'message': "OK", 'method': request.method, 'status-code': status.HTTP_200_OK,
                          'timestamp': datetime.now(), 'url': request.get_full_path(),
                          'rooms': serializer_room.data, 'vehicles': serializer_vehicle.data})

@@ -18,8 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('name', 'email', 'is_renter', 'password', 're_password')
-        extra_kwargs = {'password': {'write_only': True}, 're_password': {'write_only': True}, 'is_renter': {'read_only': True}}
+        fields = ('name', 'email', 'is_renter', 'phone', 'address', 'password', 're_password')
+        extra_kwargs = {'password': {'write_only': True}, 're_password': {'write_only': True}, 'is_renter': {'read_only': True},
+                        'phone': {'read_only': True}, 'address': {'read_only': True}}
 
     def validate(self, attrs):
         if attrs['password'] != attrs['re_password']:
@@ -37,3 +38,14 @@ class BasicUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name', 'email')
         extra_kwargs = {'name': {'read_only': True}, 'email': {'read_only': True}}
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True, write_only=True)
+    phone = serializers.CharField(required=True, write_only=True)
+    address = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('name', 'phone', 'address')
+        fields = ('name', 'phone', 'address')

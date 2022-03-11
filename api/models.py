@@ -16,6 +16,9 @@ class Media(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ('created_at',)
+
     def __str__(self):
         return str(self.media_id)
 
@@ -26,6 +29,7 @@ class Reservation(models.Model):
     end_date = models.DateTimeField()
     price = models.IntegerField()
     total = models.IntegerField()
+    active = models.BooleanField(default=True)
 
     # status
     content_type = models.ForeignKey(ContentType, related_name='reservations', on_delete=models.CASCADE)
@@ -35,6 +39,9 @@ class Reservation(models.Model):
     user = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created_at',)
 
     def __str__(self):
         return str(self.reservation_id)
@@ -83,10 +90,13 @@ class Room(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     images = GenericRelation(Media)
-    reservations = GenericRelation(Reservation)
+    reservations = GenericRelation(Reservation, related_query_name="res_room")
     owner = models.ForeignKey(User, related_name='rooms', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created_at',)
 
     def __str__(self):
         return str(self.room_id)
@@ -112,10 +122,13 @@ class Vehicle(models.Model):
     plate_number = models.CharField(max_length=100, null=True, blank=True)
 
     images = GenericRelation(Media)
-    reservations = GenericRelation(Reservation)
+    reservations = GenericRelation(Reservation, related_query_name="res_vehicle")
     owner = models.ForeignKey(User, related_name='vehicles', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created_at',)
 
     def __str__(self):
         return str(self.vehicle_id)

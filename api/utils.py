@@ -7,6 +7,7 @@ import firebase_admin
 from django.conf import settings
 from firebase_admin import storage
 from django.template import loader
+from django.utils.text import slugify
 from django.core.mail import EmailMultiAlternatives
 
 credentials = {
@@ -26,8 +27,9 @@ credentials = {
 os.environ['FIREBASE_CRED'] = json.dumps(credentials)
 
 service_account_info = json.loads(os.environ.get('FIREBASE_CRED', None))
-cred = firebase_admin.credentials.Certificate(service_account_info)
-firebase_admin.initialize_app(cred, {'storageBucket': 'faer-342211.appspot.com'})
+if not firebase_admin._apps:
+    cred = firebase_admin.credentials.Certificate(service_account_info)
+    firebase_admin.initialize_app(cred, {'storageBucket': 'faer-342211.appspot.com'})
 
 default_img_url = 'https://storage.googleapis.com/faer-342211.appspot.com/default.jpg'
 
@@ -58,10 +60,10 @@ def remove_from_tmp(file_path):
     print(f'File removed :{file_path}')
 
 
-def upload_to_storage(image):
-    fileName = image['file_name']
+def upload_to_storage(image, parent):
+    fileName, ext = image['file_name'].split(".")
     bucket = storage.bucket()
-    blob = bucket.blob('faer/' + fileName)
+    blob = bucket.blob('faer/'+parent.__class__.__name__+'/'+str(parent.pk) + '/' + slugify(fileName)[:50] + '.'+ext)
     # blob.upload_from_filename(fileName)
     decoded_file = base64.b64decode(image['encoded_file'])
     blob.upload_from_string(decoded_file, content_type='image/png')
@@ -72,9 +74,9 @@ def upload_to_storage(image):
     return blob.public_url
 
 
-def get_media_url(image):
+def get_media_url(image, parent=None):
 
-    media_url = upload_to_storage(image)
+    media_url = upload_to_storage(image, parent)
     return media_url if media_url else default_img_url
 
 
