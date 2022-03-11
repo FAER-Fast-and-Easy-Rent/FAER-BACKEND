@@ -38,3 +38,14 @@ class BasicUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name', 'email')
         extra_kwargs = {'name': {'read_only': True}, 'email': {'read_only': True}}
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True, write_only=True)
+    phone = serializers.CharField(required=True, write_only=True)
+    address = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('name', 'phone', 'address')
+        fields = ('name', 'phone', 'address')
